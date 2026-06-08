@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="{{ current_lang|default:'es' }}" class="h-full bg-slate-50">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RentCar - Sistema de Renta de Vehículos</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#10b981',
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <style>
+        input:focus, select:focus, textarea:focus {
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.15);
+            border-color: #10b981 !important;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 flex h-full overflow-hidden font-sans">
+
+    <!-- Mobile Sidebar Backdrop -->
+    <div id="sidebar-backdrop" class="fixed inset-0 bg-slate-900/40 z-30 hidden transition-opacity duration-300 md:hidden" onclick="toggleSidebar()"></div>
+
+    <!-- Sidebar (Lateral Menu) -->
+    <aside id="sidebar" class="fixed inset-y-0 left-0 flex flex-col w-64 bg-white border-r border-slate-200 z-40 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out">
+        <!-- Brand / Logo -->
+        <div class="h-16 flex items-center gap-3 px-6 border-b border-slate-200">
+            <div class="p-2 bg-gradient-to-tr from-emerald-500 to-teal-500 rounded-xl text-white flex items-center justify-center shadow-lg shadow-emerald-500/20">
+                <i class="ph-bold ph-car-profile text-xl"></i>
+            </div>
+            <span class="text-lg font-black tracking-wider text-slate-800">RENTCAR</span>
+        </div>
+
+        <!-- Navigation Links -->
+        <nav class="flex-1 px-4 py-6 space-y-1.5 overflow-y-auto">
+            <!-- Dashboard -->
+            <a href="{% url 'dashboard' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition {% if request.resolver_match.url_name == 'dashboard' %}bg-emerald-50 text-emerald-600{% else %}text-slate-600 hover:bg-slate-50 hover:text-slate-900{% endif %}">
+                <i class="ph-bold ph-squares-four text-lg"></i> Dashboard
+            </a>
+
+            <div class="pt-4 pb-2">
+                <span class="px-3 text-[10px] font-bold uppercase tracking-wider text-slate-400">Parámetros</span>
+            </div>
+
+            <!-- Tipos de Vehículos -->
+            <a href="{% url 'admin:rent_app_tipovehiculo_changelist' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition text-slate-600 hover:bg-slate-50 hover:text-slate-900">
+                <i class="ph-bold ph-list-bullets text-lg"></i> Tipos de Vehículos
+            </a>
+
+            <!-- Marcas -->
+            <a href="{% url 'admin:rent_app_marca_changelist' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition text-slate-600 hover:bg-slate-50 hover:text-slate-900">
+                <i class="ph-bold ph-tag text-lg"></i> Marcas
+            </a>
+
+            <!-- Modelos -->
+            <a href="{% url 'admin:rent_app_modelo_changelist' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition text-slate-600 hover:bg-slate-50 hover:text-slate-900">
+                <i class="ph-bold ph-car-simple text-lg"></i> Modelos
+            </a>
+
+            <!-- Combustibles -->
+            <a href="{% url 'admin:rent_app_tipocombustible_changelist' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition text-slate-600 hover:bg-slate-50 hover:text-slate-900">
+                <i class="ph-bold ph-gas-pump text-lg"></i> Combustibles
+            </a>
+
+            <div class="pt-4 pb-2">
+                <span class="px-3 text-[10px] font-bold uppercase tracking-wider text-slate-400">Operaciones</span>
+            </div>
+
+            <!-- Vehículos -->
+            <a href="{% url 'admin:rent_app_vehiculo_changelist' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition text-slate-600 hover:bg-slate-50 hover:text-slate-900">
+                <i class="ph-bold ph-car text-lg"></i> Vehículos
+            </a>
+
+            <!-- Clientes -->
+            <a href="{% url 'admin:rent_app_cliente_changelist' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition text-slate-600 hover:bg-slate-50 hover:text-slate-900">
+                <i class="ph-bold ph-users text-lg"></i> Clientes
+            </a>
+
+            <!-- Empleados -->
+            <a href="{% url 'admin:rent_app_empleado_changelist' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition text-slate-600 hover:bg-slate-50 hover:text-slate-900">
+                <i class="ph-bold ph-identification-card text-lg"></i> Empleados
+            </a>
+
+            <!-- Inspección -->
+            <a href="{% url 'registrar_inspeccion' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition {% if request.resolver_match.url_name == 'registrar_inspeccion' %}bg-emerald-50 text-emerald-600{% else %}text-slate-600 hover:bg-slate-50 hover:text-slate-900{% endif %}">
+                <i class="ph-bold ph-shield-check text-lg"></i> Inspección
+            </a>
+
+            <!-- Rentas -->
+            <a href="{% url 'registrar_renta' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition {% if request.resolver_match.url_name == 'registrar_renta' %}bg-emerald-50 text-emerald-600{% else %}text-slate-600 hover:bg-slate-50 hover:text-slate-900{% endif %}">
+                <i class="ph-bold ph-handshake text-lg"></i> Rentas
+            </a>
+
+            <div class="pt-4 pb-2">
+                <span class="px-3 text-[10px] font-bold uppercase tracking-wider text-slate-400">Analítica</span>
+            </div>
+
+            <!-- Reportes -->
+            <a href="#" onclick="showReportsToast(); return false;" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition text-slate-600 hover:bg-slate-50 hover:text-slate-900">
+                <i class="ph-bold ph-chart-line-up text-lg"></i> Reportes
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="flex-1 flex flex-col min-w-0 md:pl-64 h-screen overflow-hidden">
+        <!-- Top Header / Navbar -->
+        <header class="bg-white border-b border-slate-200 h-16 flex items-center justify-between px-6 sticky top-0 z-20 flex-shrink-0">
+            <!-- Left Header -->
+            <div class="flex items-center gap-3">
+                <button onclick="toggleSidebar()" class="md:hidden p-2 text-slate-600 hover:bg-slate-100 rounded-lg focus:outline-none">
+                    <i class="ph-bold ph-list text-xl"></i>
+                </button>
+                <h1 class="text-base font-bold text-slate-800">
+                    {% block title %}Sistema RentCar{% endblock %}
+                </h1>
+            </div>
+
+            <!-- Right Header -->
+            <div class="flex items-center gap-4">
+                <!-- Selector de Idiomas -->
+                <form action="/i18n/setlang/" method="post" class="flex items-center">
+                    {% csrf_token %}
+                    <input name="next" type="hidden" value="{{ request.path }}">
+                    <select name="language" onchange="this.form.submit()" class="bg-slate-50 border border-slate-200 text-slate-700 rounded-xl text-xs px-3 py-2 focus:outline-none focus:ring-1 focus:ring-emerald-500 font-medium">
+                        <option value="es" {% if request.LANGUAGE_CODE == 'es' %}selected{% endif %}>ES 🇪🇸</option>
+                        <option value="en" {% if request.LANGUAGE_CODE == 'en' %}selected{% endif %}>EN 🇺🇸</option>
+                    </select>
+                </form>
+
+                <!-- Admin Link -->
+                <a href="{% url 'admin:index' %}" class="flex items-center gap-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-2 rounded-xl text-xs font-semibold transition">
+                    <i class="ph-bold ph-gear text-sm"></i> Admin
+                </a>
+            </div>
+        </header>
+
+        <!-- Main Workspace -->
+        <main class="flex-1 overflow-y-auto p-6 md:p-8 bg-slate-50 relative flex flex-col justify-between">
+            <!-- Messages Banner -->
+            {% if messages %}
+            <div class="mb-6 space-y-3">
+                {% for message in messages %}
+                <div class="p-4 rounded-xl flex items-center gap-3 {% if message.tags == 'error' %}bg-red-50 border border-red-200 text-red-700{% else %}bg-emerald-50 border border-emerald-200 text-emerald-700{% endif %}">
+                    <i class="ph-bold {% if message.tags == 'error' %}ph-warning-octagon{% else %}ph-check-circle{% endif %} text-xl"></i>
+                    <span class="text-sm font-semibold">{{ message }}</span>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <!-- Dynamic Content -->
+            <div class="flex-grow">
+                {% block content %}{% endblock %}
+            </div>
+
+            <!-- Footer inside scrollable area -->
+            <footer class="border-t border-slate-200/80 py-6 mt-12 text-center text-slate-400 text-xs flex-shrink-0">
+                <p>&copy; 2026 RentCar. Todos los derechos reservados. Desarrollado con Django + PostgreSQL.</p>
+            </footer>
+        </main>
+    </div>
+
+    <!-- Script for Sidebar toggling and custom toasts -->
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const backdrop = document.getElementById('sidebar-backdrop');
+            if (sidebar.classList.contains('-translate-x-full')) {
+                sidebar.classList.remove('-translate-x-full');
+                backdrop.classList.remove('hidden');
+            } else {
+                sidebar.classList.add('-translate-x-full');
+                backdrop.classList.add('hidden');
+            }
+        }
+        
+        function showReportsToast() {
+            alert("Módulo de Reportes bajo desarrollo. Próximamente se integrará exportación a PDF y Excel.");
+        }
+    </script>
+</body>
+</html>

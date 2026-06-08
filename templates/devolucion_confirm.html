@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="max-w-md mx-auto bg-white border border-slate-200 rounded-2xl p-8 text-center shadow-sm">
+    <div class="w-16 h-16 bg-emerald-50 text-emerald-600 border border-emerald-100 rounded-full flex items-center justify-center mx-auto mb-6">
+        <i class="ph-bold ph-key text-3xl"></i>
+    </div>
+    
+    <h2 class="text-xl font-bold text-slate-800 mb-2">Confirmar Devolución</h2>
+    <p class="text-slate-500 text-sm mb-6">Estás a punto de recibir el vehículo <strong class="text-slate-800">{{ renta.vehiculo.descripcion }}</strong>. Esto liberará el auto y lo marcará nuevamente como disponible.</p>
+
+    <div class="bg-slate-50 p-4 rounded-xl text-left text-xs text-slate-500 mb-6 space-y-2 border border-slate-200">
+        <p>Cliente: <span class="text-slate-800 font-bold">{{ renta.cliente.nombre }}</span></p>
+        <p>Monto Renta: <span class="text-slate-800 font-bold">${{ renta.monto_x_dia }} x {{ renta.cantidad_dias }} días</span></p>
+    </div>
+
+    <form method="post" class="flex gap-4">
+        {% csrf_token %}
+        <a href="{% url 'dashboard' %}" class="w-1/2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-bold py-3 rounded-xl transition">Cancelar</a>
+        <button type="submit" class="w-1/2 bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-bold py-3 rounded-xl shadow-sm transition">Confirmar Recibo</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+{% block content %}
+<!-- Grid de KPIs Ejecutivos -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    
+    <!-- KPI 1 -->
+    <div class="bg-white border border-slate-200 rounded-2xl p-6 flex items-center justify-between shadow-sm">
+        <div>
+            <p class="text-slate-500 text-xs font-bold uppercase tracking-wider">Flota Registrada</p>
+            <h3 class="text-3xl font-black text-slate-800 mt-1">{{ total_vehiculos }}</h3>
+        </div>
+        <div class="p-4 bg-blue-50 text-blue-600 rounded-xl border border-blue-100">
+            <i class="ph-bold ph-car text-2xl"></i>
+        </div>
+    </div>
+
+    <!-- KPI 2 -->
+    <div class="bg-white border border-slate-200 rounded-2xl p-6 flex items-center justify-between shadow-sm">
+        <div>
+            <p class="text-slate-500 text-xs font-bold uppercase tracking-wider">Disponibles Hoy</p>
+            <h3 class="text-3xl font-black text-emerald-600 mt-1">{{ vehiculos_disponibles }}</h3>
+        </div>
+        <div class="p-4 bg-emerald-50 text-emerald-600 rounded-xl border border-emerald-100">
+            <i class="ph-bold ph-sparkle text-2xl"></i>
+        </div>
+    </div>
+
+    <!-- KPI 3 -->
+    <div class="bg-white border border-slate-200 rounded-2xl p-6 flex items-center justify-between shadow-sm">
+        <div>
+            <p class="text-slate-500 text-xs font-bold uppercase tracking-wider">Rentas Activas</p>
+            <h3 class="text-3xl font-black text-teal-600 mt-1">{{ rentas_activas }}</h3>
+        </div>
+        <div class="p-4 bg-teal-50 text-teal-600 rounded-xl border border-teal-100">
+            <i class="ph-bold ph-key text-2xl"></i>
+        </div>
+    </div>
+
+    <!-- KPI 4 -->
+    <div class="bg-white border border-slate-200 rounded-2xl p-6 flex items-center justify-between shadow-sm">
+        <div>
+            <p class="text-slate-500 text-xs font-bold uppercase tracking-wider">Clientes Activos</p>
+            <h3 class="text-3xl font-black text-indigo-600 mt-1">{{ total_clientes }}</h3>
+        </div>
+        <div class="p-4 bg-indigo-50 text-indigo-600 rounded-xl border border-indigo-100">
+            <i class="ph-bold ph-users-three text-2xl"></i>
+        </div>
+    </div>
+
+</div>
+
+<!-- Panel Proactivo de Alertas Operativas -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+    
+    <!-- Alertas: Devoluciones para Hoy -->
+    <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
+        <div class="flex items-center gap-2 mb-4">
+            <i class="ph-bold ph-bell-ringing text-amber-500 text-xl animate-pulse"></i>
+            <h3 class="text-base font-bold text-slate-800">Devoluciones Programadas para Hoy</h3>
+        </div>
+        
+        {% if rentas_hoy %}
+        <div class="space-y-3">
+            {% for r in rentas_hoy %}
+            <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 flex items-center justify-between">
+                <div>
+                    <h4 class="text-sm font-bold text-slate-800">{{ r.vehiculo.descripcion }}</h4>
+                    <p class="text-xs text-slate-500 mt-0.5">Cliente: {{ r.cliente.nombre }}</p>
+                </div>
+                <form action="{% url 'procesar_devolucion' r.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="bg-emerald-500 hover:bg-emerald-600 text-white text-xs font-bold px-3 py-2 rounded-lg transition flex items-center gap-1 shadow-sm shadow-emerald-500/20">
+                        <i class="ph-bold ph-check"></i> Recibir
+                    </button>
+                </form>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="text-slate-400 text-sm italic">No hay devoluciones agendadas para el día de hoy.</p>
+        {% endif %}
+    </div>
+
+    <!-- Alertas: Clientes con Límite de Crédito en Riesgo -->
+    <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
+        <div class="flex items-center gap-2 mb-4">
+            <i class="ph-bold ph-warning text-red-500 text-xl"></i>
+            <h3 class="text-base font-bold text-slate-800">Alerta de Límite de Crédito Consumido (+85%)</h3>
+        </div>
+
+        {% if clientes_en_riesgo %}
+        <div class="space-y-3">
+            {% for riesgo in clientes_en_riesgo %}
+            <div class="bg-red-50 border border-red-100 rounded-xl p-4">
+                <div class="flex items-center justify-between">
+                    <span class="text-sm font-bold text-red-800">{{ riesgo.cliente.nombre }}</span>
+                    <span class="text-[10px] bg-red-100 text-red-700 px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">Crítico</span>
+                </div>
+                <div class="grid grid-cols-2 gap-2 mt-2 text-xs text-slate-500">
+                    <p>Total de la Renta: <span class="text-slate-800 font-bold">${{ riesgo.costo|floatformat:2 }}</span></p>
+                    <p>Límite Autorizado: <span class="text-slate-800 font-bold">${{ riesgo.limite|floatformat:2 }}</span></p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="text-slate-400 text-sm italic">Todos los clientes disponen de suficiente margen de crédito.</p>
+        {% endif %}
+    </div>
+
+</div>
+
+<!-- Sección de Monitoreo de Flota en Tiempo Real -->
+<div class="bg-white border border-slate-200 rounded-2xl p-6 mb-8 shadow-sm">
+    <div class="flex items-center justify-between mb-6">
+        <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+            <i class="ph-bold ph-pulse text-emerald-500"></i> Monitoreo de Flota
+        </h3>
+        <div class="flex gap-2">
+            <span class="text-xs bg-emerald-50 text-emerald-600 border border-emerald-100 px-2.5 py-1 rounded-full font-semibold">Disponible</span>
+            <span class="text-xs bg-blue-50 text-blue-600 border border-blue-100 px-2.5 py-1 rounded-full font-semibold">Rentado</span>
+            <span class="text-xs bg-amber-50 text-amber-600 border border-amber-100 px-2.5 py-1 rounded-full font-semibold">Mantenimiento</span>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {% for vehiculo in vehiculos %}
+        <div class="bg-slate-50 border border-slate-200 rounded-xl p-5 hover:border-slate-300 transition">
+            <div class="flex items-start justify-between">
+                <div>
+                    <h4 class="font-bold text-slate-800">{{ vehiculo.descripcion }}</h4>
+                    <span class="text-xs text-slate-500 mt-1 inline-block">{{ vehiculo.tipo_vehiculo.descripcion }}</span>
+                </div>
+                <!-- Badge de Estado -->
+                <span class="text-xs px-2.5 py-1 rounded-full font-bold border 
+                    {% if vehiculo.estado == 'Disponible' %}bg-emerald-50 text-emerald-600 border-emerald-100
+                    {% elif vehiculo.estado == 'Rentado' %}bg-blue-50 text-blue-600 border-blue-100
+                    {% else %}bg-amber-50 text-amber-600 border-amber-100{% endif %}">
+                    {{ vehiculo.estado }}
+                </span>
+            </div>
+            <div class="mt-4 pt-4 border-t border-slate-200 grid grid-cols-2 gap-2 text-xs text-slate-500">
+                <p>Placa: <span class="text-slate-800 font-bold">{{ vehiculo.no_placa }}</span></p>
+                <p>Precio/Día: <span class="text-slate-800 font-bold">${{ vehiculo.precio_por_dia|floatformat:2 }}</span></p>
+            </div>
+        </div>
+        {% empty %}
+        <p class="text-slate-400 text-sm italic col-span-3">No hay vehículos registrados en el sistema. Acceda al Administrador de Django para crearlos.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

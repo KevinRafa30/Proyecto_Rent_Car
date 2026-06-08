@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="max-w-2xl mx-auto bg-white border border-slate-200 rounded-2xl p-8 shadow-sm">
+    <div class="flex items-center gap-3 mb-6">
+        <div class="p-3 bg-emerald-50 text-emerald-600 rounded-xl border border-emerald-100">
+            <i class="ph-bold ph-handshake text-2xl"></i>
+        </div>
+        <h2 class="text-xl font-bold text-slate-800">Formulario de Nueva Renta</h2>
+    </div>
+
+    <!-- Formulario de Renta -->
+    <form method="post" id="rentaForm" class="space-y-6">
+        {% csrf_token %}
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div>
+                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Vehículo</label>
+                <select name="vehiculo" id="id_vehiculo" class="w-full bg-slate-50 text-slate-800 rounded-xl border border-slate-200 p-2.5 focus:ring-2 focus:ring-emerald-500 outline-none transition" required>
+                    <option value="" disabled selected>-- Seleccione Vehículo --</option>
+                    {% for v in vehiculos_data %}
+                    <option value="{{ v.id }}" data-precio="{{ v.precio_por_dia }}">{{ v.descripcion }} - (${{ v.precio_por_dia }}/Día)</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div>
+                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Cliente</label>
+                <select name="cliente" id="id_cliente" class="w-full bg-slate-50 text-slate-800 rounded-xl border border-slate-200 p-2.5 focus:ring-2 focus:ring-emerald-500 outline-none transition" required>
+                    <option value="" disabled selected>-- Seleccione Cliente --</option>
+                    {% for c in clientes_data %}
+                    <option value="{{ c.id }}" data-limite="{{ c.limite_credito }}">{{ c.nombre }} (Límite: ${{ c.limite_credito|floatformat:0 }})</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div>
+                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Empleado</label>
+                {{ form.empleado }}
+            </div>
+            <div>
+                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Cantidad Días</label>
+                <input type="number" name="cantidad_dias" id="id_cantidad_dias" class="w-full bg-slate-50 text-slate-800 rounded-xl border border-slate-200 p-2.5 focus:ring-2 focus:ring-emerald-500 outline-none transition" required min="1" value="1">
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div>
+                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Precio de Renta por Día</label>
+                <input type="number" step="0.01" name="monto_x_dia" id="id_monto_x_dia" class="w-full bg-slate-50 text-slate-800 rounded-xl border border-slate-200 p-2.5 focus:ring-2 focus:ring-emerald-500 outline-none transition" required>
+            </div>
+            <div>
+                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Fecha Inicio Renta</label>
+                {{ form.fecha_renta }}
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div>
+                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Fecha Devolución</label>
+                {{ form.fecha_devolucion }}
+            </div>
+            <div class="bg-slate-50 p-4 rounded-xl flex flex-col justify-center border border-slate-200">
+                <span class="text-xs text-slate-500 uppercase tracking-wider font-semibold">Costo Total de Renta</span>
+                <span class="text-2xl font-black text-emerald-600 mt-1" id="total_calculado">$0.00</span>
+            </div>
+        </div>
+
+        <div>
+            <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Comentarios Adicionales</label>
+            {{ form.comentario }}
+        </div>
+
+        <!-- Alerta Dinámica en Caliente sobre Límites de Crédito -->
+        <div id="credit_warning" class="hidden p-4 bg-red-50 border border-red-200 text-red-700 rounded-xl flex items-center gap-3">
+            <i class="ph-bold ph-warning-octagon text-xl"></i>
+            <span class="text-sm font-semibold">⚠️ ¡Alerta! El costo total supera el límite de crédito disponible del cliente seleccionado.</span>
+        </div>
+
+        <div class="flex justify-end gap-4 pt-4 border-t border-slate-100">
+            <a href="{% url 'dashboard' %}" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-bold px-6 py-3 rounded-xl transition">Cancelar</a>
+            <button type="submit" id="submit_btn" class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold px-8 py-3 rounded-xl shadow-sm transition text-sm">Registrar Transacción</button>
+        </div>
+    </form>
+</div>
+
+<!-- Lógica de Negocio Interactiva en UI Frontend -->
+<script>
+    // Style Django Form Inputs Dynamically
+    document.querySelectorAll('#rentaForm input, #rentaForm select, #rentaForm textarea').forEach(element => {
+        if (element.type !== 'checkbox' && element.type !== 'submit' && element.type !== 'hidden') {
+            element.className = 'w-full bg-slate-50 text-slate-800 rounded-xl border border-slate-200 p-2.5 focus:ring-2 focus:ring-emerald-500 focus:outline-none transition';
+        }
+    });
+
+    const vehiculoSelect = document.getElementById('id_vehiculo');
+    const clienteSelect = document.getElementById('id_cliente');
+    const diasInput = document.getElementById('id_cantidad_dias');
+    const precioInput = document.getElementById('id_monto_x_dia');
+    const totalDisplay = document.getElementById('total_calculado');
+    const warningDiv = document.getElementById('credit_warning');
+    const submitBtn = document.getElementById('submit_btn');
+
+    // Auto-completar precio por día al seleccionar el vehículo
+    vehiculoSelect.addEventListener('change', function() {
+        const selectedOption = this.options[this.selectedIndex];
+        const precio = selectedOption.getAttribute('data-precio');
+        if (precio) {
+            precioInput.value = precio;
+            calcularCostoTotal();
+        }
+    });
+
+    // Recalcular al cambiar variables
+    [diasInput, precioInput, clienteSelect].forEach(element => {
+        element.addEventListener('input', calcularCostoTotal);
+        element.addEventListener('change', calcularCostoTotal);
+    });
+
+    function calcularCostoTotal() {
+        const dias = parseInt(diasInput.value) || 0;
+        const precio = parseFloat(precioInput.value) || 0;
+        const total = dias * precio;
+
+        totalDisplay.innerText = '$' + total.toLocaleString('es-DO', { minimumFractionDigits: 2 });
+
+        // Validación dinámica de límite de crédito del cliente
+        const selectedCliente = clienteSelect.options[clienteSelect.selectedIndex];
+        if (selectedCliente && selectedCliente.value) {
+            const limite = parseFloat(selectedCliente.getAttribute('data-limite')) || 0;
+            if (total > limite) {
+                warningDiv.classList.remove('hidden');
+                submitBtn.disabled = true;
+                submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
+            } else {
+                warningDiv.classList.add('hidden');
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            }
+        }
+    }
+</script>
+{% endblock %}
