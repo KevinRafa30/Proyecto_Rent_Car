@@ -53,22 +53,22 @@
             </div>
 
             <!-- Tipos de Vehículos -->
-            <a href="{% url 'admin:rent_app_tipovehiculo_changelist' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition text-slate-600 hover:bg-slate-50 hover:text-slate-900">
+            <a href="{% url 'tipo_vehiculo_list' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition {% if 'tipos' in request.path %}bg-emerald-50 text-emerald-600{% else %}text-slate-600 hover:bg-slate-50 hover:text-slate-900{% endif %}">
                 <i class="ph-bold ph-list-bullets text-lg"></i> Tipos de Vehículos
             </a>
 
             <!-- Marcas -->
-            <a href="{% url 'admin:rent_app_marca_changelist' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition text-slate-600 hover:bg-slate-50 hover:text-slate-900">
+            <a href="{% url 'marca_list' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition {% if 'marcas' in request.path %}bg-emerald-50 text-emerald-600{% else %}text-slate-600 hover:bg-slate-50 hover:text-slate-900{% endif %}">
                 <i class="ph-bold ph-tag text-lg"></i> Marcas
             </a>
 
             <!-- Modelos -->
-            <a href="{% url 'admin:rent_app_modelo_changelist' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition text-slate-600 hover:bg-slate-50 hover:text-slate-900">
+            <a href="{% url 'modelo_list' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition {% if 'modelos' in request.path %}bg-emerald-50 text-emerald-600{% else %}text-slate-600 hover:bg-slate-50 hover:text-slate-900{% endif %}">
                 <i class="ph-bold ph-car-simple text-lg"></i> Modelos
             </a>
 
             <!-- Combustibles -->
-            <a href="{% url 'admin:rent_app_tipocombustible_changelist' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition text-slate-600 hover:bg-slate-50 hover:text-slate-900">
+            <a href="{% url 'tipo_combustible_list' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition {% if 'combustibles' in request.path %}bg-emerald-50 text-emerald-600{% else %}text-slate-600 hover:bg-slate-50 hover:text-slate-900{% endif %}">
                 <i class="ph-bold ph-gas-pump text-lg"></i> Combustibles
             </a>
 

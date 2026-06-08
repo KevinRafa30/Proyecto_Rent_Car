@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block title %}Tipos de Vehículos{% endblock %}
+{% block content %}
+<div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+    <div class="p-6 border-b border-slate-200 flex items-center justify-between">
+        <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+            <i class="ph-bold ph-list-bullets text-emerald-500"></i> Tipos de Vehículos
+        </h2>
+        <a href="{% url 'tipo_vehiculo_create' %}" class="bg-emerald-500 hover:bg-emerald-600 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition flex items-center gap-1.5 shadow-sm shadow-emerald-500/20">
+            <i class="ph-bold ph-plus"></i> Nuevo Tipo
+        </a>
+    </div>
+
+    <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+            <thead>
+                <tr class="bg-slate-50 border-b border-slate-200 text-slate-500 text-xs font-bold uppercase tracking-wider">
+                    <th class="px-6 py-4">ID</th>
+                    <th class="px-6 py-4">Descripción</th>
+                    <th class="px-6 py-4">Estado</th>
+                    <th class="px-6 py-4 text-right">Acciones</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100 text-sm text-slate-700">
+                {% for item in objects %}
+                <tr class="hover:bg-slate-50/50 transition">
+                    <td class="px-6 py-4 font-bold text-slate-800">#{{ item.id }}</td>
+                    <td class="px-6 py-4 font-medium">{{ item.descripcion }}</td>
+                    <td class="px-6 py-4">
+                        <span class="text-xs px-2.5 py-1 rounded-full font-bold border 
+                            {% if item.estado == 'Activo' %}bg-emerald-50 text-emerald-600 border-emerald-100
+                            {% else %}bg-slate-100 text-slate-500 border-slate-200{% endif %}">
+                            {{ item.estado }}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 text-right flex justify-end gap-2.5">
+                        <a href="{% url 'tipo_vehiculo_edit' item.id %}" class="p-2 bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-600 rounded-xl transition flex items-center justify-center" title="Editar">
+                            <i class="ph-bold ph-pencil-simple text-base"></i>
+                        </a>
+                        <a href="{% url 'tipo_vehiculo_delete' item.id %}" class="p-2 bg-red-50 hover:bg-red-100 border border-red-100 text-red-650 rounded-xl transition flex items-center justify-center" title="Eliminar">
+                            <i class="ph-bold ph-trash text-base"></i>
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="px-6 py-12 text-center text-slate-400 italic">
+                        No hay tipos de vehículos registrados.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

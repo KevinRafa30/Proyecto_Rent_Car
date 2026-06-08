@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.utils import timezone
 from django.utils.translation import gettext as _
-from .models import Vehiculo, Cliente, Empleado, RentaDevolucion, Inspeccion
-from .forms import RentaForm, InspeccionForm
+from .models import Vehiculo, Cliente, Empleado, RentaDevolucion, Inspeccion, TipoVehiculo, Marca, Modelo, TipoCombustible
+from .forms import RentaForm, InspeccionForm, TipoVehiculoForm, MarcaForm, ModeloForm, TipoCombustibleForm
 
 # Dashboard Principal Dinámico (Kpis, Alertas, Logs transaccionales)
 def dashboard(request):
@@ -103,3 +103,151 @@ def registrar_inspeccion(request):
     else:
         form = InspeccionForm()
     return render(request, 'inspection_form.html', {'form': form, 'title': _("Inspección Física de Vehículo")})
+
+
+# CRUD for TipoVehiculo
+def list_tipo_vehiculo(request):
+    objects = TipoVehiculo.objects.all().order_by('id')
+    return render(request, 'parametros/tipo_vehiculo_list.html', {'objects': objects})
+
+def create_tipo_vehiculo(request):
+    if request.method == 'POST':
+        form = TipoVehiculoForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, _("¡Tipo de vehículo creado con éxito!"))
+            return redirect('tipo_vehiculo_list')
+    else:
+        form = TipoVehiculoForm()
+    return render(request, 'parametros/tipo_vehiculo_form.html', {'form': form, 'title': _("Nuevo Tipo de Vehículo")})
+
+def edit_tipo_vehiculo(request, pk):
+    obj = get_object_or_404(TipoVehiculo, pk=pk)
+    if request.method == 'POST':
+        form = TipoVehiculoForm(request.POST, instance=obj)
+        if form.is_valid():
+            form.save()
+            messages.success(request, _("¡Tipo de vehículo actualizado con éxito!"))
+            return redirect('tipo_vehiculo_list')
+    else:
+        form = TipoVehiculoForm(instance=obj)
+    return render(request, 'parametros/tipo_vehiculo_form.html', {'form': form, 'title': _("Editar Tipo de Vehículo"), 'object': obj})
+
+def delete_tipo_vehiculo(request, pk):
+    obj = get_object_or_404(TipoVehiculo, pk=pk)
+    if request.method == 'POST':
+        obj.delete()
+        messages.success(request, _("¡Tipo de vehículo eliminado con éxito!"))
+        return redirect('tipo_vehiculo_list')
+    return render(request, 'parametros/confirm_delete.html', {'object': obj, 'cancel_url': 'tipo_vehiculo_list', 'title': _("Eliminar Tipo de Vehículo")})
+
+
+# CRUD for Marca
+def list_marca(request):
+    objects = Marca.objects.all().order_by('id')
+    return render(request, 'parametros/marca_list.html', {'objects': objects})
+
+def create_marca(request):
+    if request.method == 'POST':
+        form = MarcaForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, _("¡Marca creada con éxito!"))
+            return redirect('marca_list')
+    else:
+        form = MarcaForm()
+    return render(request, 'parametros/marca_form.html', {'form': form, 'title': _("Nueva Marca")})
+
+def edit_marca(request, pk):
+    obj = get_object_or_404(Marca, pk=pk)
+    if request.method == 'POST':
+        form = MarcaForm(request.POST, instance=obj)
+        if form.is_valid():
+            form.save()
+            messages.success(request, _("¡Marca actualizada con éxito!"))
+            return redirect('marca_list')
+    else:
+        form = MarcaForm(instance=obj)
+    return render(request, 'parametros/marca_form.html', {'form': form, 'title': _("Editar Marca"), 'object': obj})
+
+def delete_marca(request, pk):
+    obj = get_object_or_404(Marca, pk=pk)
+    if request.method == 'POST':
+        obj.delete()
+        messages.success(request, _("¡Marca eliminada con éxito!"))
+        return redirect('marca_list')
+    return render(request, 'parametros/confirm_delete.html', {'object': obj, 'cancel_url': 'marca_list', 'title': _("Eliminar Marca")})
+
+
+# CRUD for Modelo
+def list_modelo(request):
+    objects = Modelo.objects.all().order_by('id')
+    return render(request, 'parametros/modelo_list.html', {'objects': objects})
+
+def create_modelo(request):
+    if request.method == 'POST':
+        form = ModeloForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, _("¡Modelo creado con éxito!"))
+            return redirect('modelo_list')
+    else:
+        form = ModeloForm()
+    return render(request, 'parametros/modelo_form.html', {'form': form, 'title': _("Nuevo Modelo")})
+
+def edit_modelo(request, pk):
+    obj = get_object_or_404(Modelo, pk=pk)
+    if request.method == 'POST':
+        form = ModeloForm(request.POST, instance=obj)
+        if form.is_valid():
+            form.save()
+            messages.success(request, _("¡Modelo actualizado con éxito!"))
+            return redirect('modelo_list')
+    else:
+        form = ModeloForm(instance=obj)
+    return render(request, 'parametros/modelo_form.html', {'form': form, 'title': _("Editar Modelo"), 'object': obj})
+
+def delete_modelo(request, pk):
+    obj = get_object_or_404(Modelo, pk=pk)
+    if request.method == 'POST':
+        obj.delete()
+        messages.success(request, _("¡Modelo eliminado con éxito!"))
+        return redirect('modelo_list')
+    return render(request, 'parametros/confirm_delete.html', {'object': obj, 'cancel_url': 'modelo_list', 'title': _("Eliminar Modelo")})
+
+
+# CRUD for TipoCombustible
+def list_tipo_combustible(request):
+    objects = TipoCombustible.objects.all().order_by('id')
+    return render(request, 'parametros/tipo_combustible_list.html', {'objects': objects})
+
+def create_tipo_combustible(request):
+    if request.method == 'POST':
+        form = TipoCombustibleForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, _("¡Tipo de combustible creado con éxito!"))
+            return redirect('tipo_combustible_list')
+    else:
+        form = TipoCombustibleForm()
+    return render(request, 'parametros/tipo_combustible_form.html', {'form': form, 'title': _("Nuevo Tipo de Combustible")})
+
+def edit_tipo_combustible(request, pk):
+    obj = get_object_or_404(TipoCombustible, pk=pk)
+    if request.method == 'POST':
+        form = TipoCombustibleForm(request.POST, instance=obj)
+        if form.is_valid():
+            form.save()
+            messages.success(request, _("¡Tipo de combustible actualizado con éxito!"))
+            return redirect('tipo_combustible_list')
+    else:
+        form = TipoCombustibleForm(instance=obj)
+    return render(request, 'parametros/tipo_combustible_form.html', {'form': form, 'title': _("Editar Tipo de Combustible"), 'object': obj})
+
+def delete_tipo_combustible(request, pk):
+    obj = get_object_or_404(TipoCombustible, pk=pk)
+    if request.method == 'POST':
+        obj.delete()
+        messages.success(request, _("¡Tipo de combustible eliminado con éxito!"))
+        return redirect('tipo_combustible_list')
+    return render(request, 'parametros/confirm_delete.html', {'object': obj, 'cancel_url': 'tipo_combustible_list', 'title': _("Eliminar Tipo de Combustible")})
