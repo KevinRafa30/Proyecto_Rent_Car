@@ -48,4 +48,8 @@ urlpatterns = [
     path('vehiculos/nuevo/', views.create_vehiculo, name='vehiculo_create'),
     path('vehiculos/editar/<int:pk>/', views.edit_vehiculo, name='vehiculo_edit'),
     path('vehiculos/eliminar/<int:pk>/', views.delete_vehiculo, name='vehiculo_delete'),
+
+    # Consultas y Reportes
+    path('consultas/', views.consulta_rentas, name='consulta_rentas'),
+    path('reportes/', views.reporte_rentas, name='reporte_rentas'),
 ]
