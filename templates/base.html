@@ -105,9 +105,14 @@
                 <span class="px-3 text-[10px] font-bold uppercase tracking-wider text-slate-400">Analítica</span>
             </div>
 
-            <!-- Reportes -->
-            <a href="#" onclick="showReportsToast(); return false;" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition text-slate-600 hover:bg-slate-50 hover:text-slate-900">
-                <i class="ph-bold ph-chart-line-up text-lg"></i> Reportes
+            <!-- Consulta de Rentas -->
+            <a href="{% url 'consulta_rentas' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition {% if 'consultas' in request.path %}bg-indigo-50 text-indigo-600{% else %}text-slate-600 hover:bg-slate-50 hover:text-slate-900{% endif %}">
+                <i class="ph-bold ph-magnifying-glass text-lg"></i> Consulta de Rentas
+            </a>
+
+            <!-- Reporte de Rentas -->
+            <a href="{% url 'reporte_rentas' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition {% if 'reportes' in request.path %}bg-indigo-50 text-indigo-600{% else %}text-slate-600 hover:bg-slate-50 hover:text-slate-900{% endif %}">
+                <i class="ph-bold ph-chart-line-up text-lg"></i> Reporte de Rentas
             </a>
         </nav>
     </aside>
