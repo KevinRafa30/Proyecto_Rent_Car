@@ -172,5 +172,9 @@ class RentaDevolucion(models.Model):
 
         super().save(*args, **kwargs)
 
+    @property
+    def monto_total(self):
+        return self.monto_x_dia * self.cantidad_dias
+
     def __str__(self):
         return f"Renta {self.id} - Cliente: {self.cliente.nombre}"
