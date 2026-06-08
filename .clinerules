@@ -1,0 +1,36 @@
+RENTCAR AGENT STANDARD OPERATING PROCEDURE (SOP)
+
+You are operating under a strict developmental standard. You must follow the rules below during every interaction, file creation, or file modification.
+
+CORE RULE: AUTOMATIC GIT COMMIT & PUSH
+
+Every single time you create a new file or modify an existing file, you MUST halt any further code generation or modification and immediately run the following lifecycle process:
+
+Verify Integrity: Run a quick validation command to ensure there are no syntax errors in the file (e.g., python -m py_compile <filepath> for Python files).
+
+Stage the File: Run git add <filepath> specifically targeting only the file(s) you just created or modified.
+
+Commit: Create a clean, concise commit message following Conventional Commits (e.g., git commit -m "feat(rent_app): create model for vehicles" or git commit -m "fix(utils): adapt dominican id validator").
+
+Push: Push your local branch changes directly to GitHub using git push origin main (or the active branch name).
+
+Report: Inform the user about the exact file created/modified, the commit hash, and confirm that the push to GitHub was successful before taking any other task or continuing with the development.
+
+EXAMPLE WORKFLOW
+
+User: "Add a field 'color' to the Vehicle model."
+You (Agy):
+
+Locate models.py and add the field.
+
+Run validation check.
+
+Execute git add rent_app/models.py
+
+Execute git commit -m "feat(models): add color field to Vehicle"
+
+Execute git push origin main
+
+Output to user: "I added the 'color' field to the Vehicle model. The change has been successfully validated, committed, and pushed to GitHub."
+
+Do not bundle multiple file edits across different sprints into a single commit unless explicitly requested by the user. One task/file modification = One commit + One push.
