@@ -40,33 +40,43 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 
                 <label class="flex items-center gap-3 p-3 bg-white border border-slate-200 rounded-xl cursor-pointer hover:border-indigo-500/50 transition">
-                    <input type="checkbox" name="tiene_ralladuras" class="w-5 h-5 accent-indigo-600 rounded border-slate-350 bg-slate-50">
+                    {{ form.tiene_ralladuras }}
                     <span class="text-sm font-semibold text-slate-700">¿Tiene Ralladuras?</span>
                 </label>
 
                 <label class="flex items-center gap-3 p-3 bg-white border border-slate-200 rounded-xl cursor-pointer hover:border-indigo-500/50 transition">
-                    <input type="checkbox" name="tiene_roturas_cristal" class="w-5 h-5 accent-indigo-600 rounded border-slate-350 bg-slate-50">
+                    {{ form.tiene_roturas_cristal }}
                     <span class="text-sm font-semibold text-slate-700">¿Tiene Rotura de Cristales?</span>
                 </label>
 
                 <label class="flex items-center gap-3 p-3 bg-white border border-slate-200 rounded-xl cursor-pointer hover:border-indigo-500/50 transition">
-                    <input type="checkbox" name="tiene_goma_repuesto" checked class="w-5 h-5 accent-indigo-600 rounded border-slate-350 bg-slate-50">
+                    {{ form.tiene_goma_repuesto }}
                     <span class="text-sm font-semibold text-slate-700">¿Tiene Goma de Repuesto?</span>
                 </label>
 
                 <label class="flex items-center gap-3 p-3 bg-white border border-slate-200 rounded-xl cursor-pointer hover:border-indigo-500/50 transition">
-                    <input type="checkbox" name="tiene_gato" checked class="w-5 h-5 accent-indigo-600 rounded border-slate-350 bg-slate-50">
+                    {{ form.tiene_gato }}
                     <span class="text-sm font-semibold text-slate-700">¿Tiene Gato Hidráulico?</span>
                 </label>
 
                 <label class="flex items-center gap-3 p-3 bg-white border border-slate-200 rounded-xl cursor-pointer hover:border-indigo-500/50 transition">
-                    <input type="checkbox" name="estado_gomas_delanteras_ok" checked class="w-5 h-5 accent-indigo-600 rounded border-slate-350 bg-slate-50">
-                    <span class="text-sm font-semibold text-slate-700">Gomas Delanteras OK</span>
+                    {{ form.goma_delantera_izq }}
+                    <span class="text-sm font-semibold text-slate-700">Goma Delantera Izq. OK</span>
                 </label>
 
                 <label class="flex items-center gap-3 p-3 bg-white border border-slate-200 rounded-xl cursor-pointer hover:border-indigo-500/50 transition">
-                    <input type="checkbox" name="estado_gomas_traseras_ok" checked class="w-5 h-5 accent-indigo-600 rounded border-slate-350 bg-slate-50">
-                    <span class="text-sm font-semibold text-slate-700">Gomas Traseras OK</span>
+                    {{ form.goma_delantera_der }}
+                    <span class="text-sm font-semibold text-slate-700">Goma Delantera Der. OK</span>
+                </label>
+
+                <label class="flex items-center gap-3 p-3 bg-white border border-slate-200 rounded-xl cursor-pointer hover:border-indigo-500/50 transition">
+                    {{ form.goma_trasera_izq }}
+                    <span class="text-sm font-semibold text-slate-700">Goma Trasera Izq. OK</span>
+                </label>
+
+                <label class="flex items-center gap-3 p-3 bg-white border border-slate-200 rounded-xl cursor-pointer hover:border-indigo-500/50 transition">
+                    {{ form.goma_trasera_der }}
+                    <span class="text-sm font-semibold text-slate-700">Goma Trasera Der. OK</span>
                 </label>
 
             </div>
@@ -91,6 +101,8 @@
     document.querySelectorAll('#inspeccionForm input, #inspeccionForm select, #inspeccionForm textarea').forEach(element => {
         if (element.type !== 'checkbox' && element.type !== 'submit' && element.type !== 'hidden') {
             element.className = 'w-full bg-slate-50 text-slate-800 rounded-xl border border-slate-200 p-2.5 focus:ring-2 focus:ring-indigo-500 focus:outline-none transition';
+        } else if (element.type === 'checkbox') {
+            element.className = 'w-5 h-5 accent-indigo-600 rounded border-slate-300 bg-slate-50';
         }
     });
 </script>
