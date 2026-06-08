@@ -11,7 +11,7 @@
             theme: {
                 extend: {
                     colors: {
-                        primary: '#10b981',
+                        primary: '#4f46e5',
                     }
                 }
             }
@@ -21,8 +21,8 @@
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <style>
         input:focus, select:focus, textarea:focus {
-            box-shadow: 0 0 10px rgba(16, 185, 129, 0.15);
-            border-color: #10b981 !important;
+            box-shadow: 0 0 10px rgba(79, 70, 229, 0.15);
+            border-color: #4f46e5 !important;
         }
     </style>
 </head>
@@ -35,7 +35,7 @@
     <aside id="sidebar" class="fixed inset-y-0 left-0 flex flex-col w-64 bg-white border-r border-slate-200 z-40 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out">
         <!-- Brand / Logo -->
         <div class="h-16 flex items-center gap-3 px-6 border-b border-slate-200">
-            <div class="p-2 bg-gradient-to-tr from-emerald-500 to-teal-500 rounded-xl text-white flex items-center justify-center shadow-lg shadow-emerald-500/20">
+            <div class="p-2 bg-gradient-to-tr from-indigo-500 to-violet-500 rounded-xl text-white flex items-center justify-center shadow-lg shadow-indigo-500/20">
                 <i class="ph-bold ph-car-profile text-xl"></i>
             </div>
             <span class="text-lg font-black tracking-wider text-slate-800">RENTCAR</span>
@@ -44,7 +44,7 @@
         <!-- Navigation Links -->
         <nav class="flex-1 px-4 py-6 space-y-1.5 overflow-y-auto">
             <!-- Dashboard -->
-            <a href="{% url 'dashboard' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition {% if request.resolver_match.url_name == 'dashboard' %}bg-emerald-50 text-emerald-600{% else %}text-slate-600 hover:bg-slate-50 hover:text-slate-900{% endif %}">
+            <a href="{% url 'dashboard' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition {% if request.resolver_match.url_name == 'dashboard' %}bg-indigo-50 text-indigo-600{% else %}text-slate-600 hover:bg-slate-50 hover:text-slate-900{% endif %}">
                 <i class="ph-bold ph-squares-four text-lg"></i> Dashboard
             </a>
 
@@ -53,22 +53,22 @@
             </div>
 
             <!-- Tipos de Vehículos -->
-            <a href="{% url 'tipo_vehiculo_list' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition {% if 'tipos' in request.path %}bg-emerald-50 text-emerald-600{% else %}text-slate-600 hover:bg-slate-50 hover:text-slate-900{% endif %}">
+            <a href="{% url 'tipo_vehiculo_list' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition {% if 'tipos' in request.path %}bg-indigo-50 text-indigo-600{% else %}text-slate-600 hover:bg-slate-50 hover:text-slate-900{% endif %}">
                 <i class="ph-bold ph-list-bullets text-lg"></i> Tipos de Vehículos
             </a>
 
             <!-- Marcas -->
-            <a href="{% url 'marca_list' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition {% if 'marcas' in request.path %}bg-emerald-50 text-emerald-600{% else %}text-slate-600 hover:bg-slate-50 hover:text-slate-900{% endif %}">
+            <a href="{% url 'marca_list' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition {% if 'marcas' in request.path %}bg-indigo-50 text-indigo-600{% else %}text-slate-600 hover:bg-slate-50 hover:text-slate-900{% endif %}">
                 <i class="ph-bold ph-tag text-lg"></i> Marcas
             </a>
 
             <!-- Modelos -->
-            <a href="{% url 'modelo_list' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition {% if 'modelos' in request.path %}bg-emerald-50 text-emerald-600{% else %}text-slate-600 hover:bg-slate-50 hover:text-slate-900{% endif %}">
+            <a href="{% url 'modelo_list' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition {% if 'modelos' in request.path %}bg-indigo-50 text-indigo-600{% else %}text-slate-600 hover:bg-slate-50 hover:text-slate-900{% endif %}">
                 <i class="ph-bold ph-car-simple text-lg"></i> Modelos
             </a>
 
             <!-- Combustibles -->
-            <a href="{% url 'tipo_combustible_list' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition {% if 'combustibles' in request.path %}bg-emerald-50 text-emerald-600{% else %}text-slate-600 hover:bg-slate-50 hover:text-slate-900{% endif %}">
+            <a href="{% url 'tipo_combustible_list' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition {% if 'combustibles' in request.path %}bg-indigo-50 text-indigo-600{% else %}text-slate-600 hover:bg-slate-50 hover:text-slate-900{% endif %}">
                 <i class="ph-bold ph-gas-pump text-lg"></i> Combustibles
             </a>
 
@@ -77,27 +77,27 @@
             </div>
 
             <!-- Vehículos -->
-            <a href="{% url 'admin:rent_app_vehiculo_changelist' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition text-slate-600 hover:bg-slate-50 hover:text-slate-900">
+            <a href="{% url 'vehiculo_list' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition {% if 'vehiculos' in request.path %}bg-indigo-50 text-indigo-600{% else %}text-slate-600 hover:bg-slate-50 hover:text-slate-900{% endif %}">
                 <i class="ph-bold ph-car text-lg"></i> Vehículos
             </a>
 
             <!-- Clientes -->
-            <a href="{% url 'admin:rent_app_cliente_changelist' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition text-slate-600 hover:bg-slate-50 hover:text-slate-900">
+            <a href="{% url 'cliente_list' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition {% if 'clientes' in request.path %}bg-indigo-50 text-indigo-600{% else %}text-slate-600 hover:bg-slate-50 hover:text-slate-900{% endif %}">
                 <i class="ph-bold ph-users text-lg"></i> Clientes
             </a>
 
             <!-- Empleados -->
-            <a href="{% url 'admin:rent_app_empleado_changelist' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition text-slate-600 hover:bg-slate-50 hover:text-slate-900">
+            <a href="{% url 'empleado_list' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition {% if 'empleados' in request.path %}bg-indigo-50 text-indigo-600{% else %}text-slate-600 hover:bg-slate-50 hover:text-slate-900{% endif %}">
                 <i class="ph-bold ph-identification-card text-lg"></i> Empleados
             </a>
 
             <!-- Inspección -->
-            <a href="{% url 'registrar_inspeccion' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition {% if request.resolver_match.url_name == 'registrar_inspeccion' %}bg-emerald-50 text-emerald-600{% else %}text-slate-600 hover:bg-slate-50 hover:text-slate-900{% endif %}">
+            <a href="{% url 'registrar_inspeccion' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition {% if request.resolver_match.url_name == 'registrar_inspeccion' %}bg-indigo-50 text-indigo-600{% else %}text-slate-600 hover:bg-slate-50 hover:text-slate-900{% endif %}">
                 <i class="ph-bold ph-shield-check text-lg"></i> Inspección
             </a>
 
             <!-- Rentas -->
-            <a href="{% url 'registrar_renta' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition {% if request.resolver_match.url_name == 'registrar_renta' %}bg-emerald-50 text-emerald-600{% else %}text-slate-600 hover:bg-slate-50 hover:text-slate-900{% endif %}">
+            <a href="{% url 'registrar_renta' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition {% if request.resolver_match.url_name == 'registrar_renta' %}bg-indigo-50 text-indigo-600{% else %}text-slate-600 hover:bg-slate-50 hover:text-slate-900{% endif %}">
                 <i class="ph-bold ph-handshake text-lg"></i> Rentas
             </a>
 
@@ -132,7 +132,7 @@
                 <form action="/i18n/setlang/" method="post" class="flex items-center">
                     {% csrf_token %}
                     <input name="next" type="hidden" value="{{ request.path }}">
-                    <select name="language" onchange="this.form.submit()" class="bg-slate-50 border border-slate-200 text-slate-700 rounded-xl text-xs px-3 py-2 focus:outline-none focus:ring-1 focus:ring-emerald-500 font-medium">
+                    <select name="language" onchange="this.form.submit()" class="bg-slate-50 border border-slate-200 text-slate-700 rounded-xl text-xs px-3 py-2 focus:outline-none focus:ring-1 focus:ring-indigo-500 font-medium">
                         <option value="es" {% if request.LANGUAGE_CODE == 'es' %}selected{% endif %}>ES 🇪🇸</option>
                         <option value="en" {% if request.LANGUAGE_CODE == 'en' %}selected{% endif %}>EN 🇺🇸</option>
                     </select>
@@ -151,7 +151,7 @@
             {% if messages %}
             <div class="mb-6 space-y-3">
                 {% for message in messages %}
-                <div class="p-4 rounded-xl flex items-center gap-3 {% if message.tags == 'error' %}bg-red-50 border border-red-200 text-red-700{% else %}bg-emerald-50 border border-emerald-200 text-emerald-700{% endif %}">
+                <div class="p-4 rounded-xl flex items-center gap-3 {% if message.tags == 'error' %}bg-red-50 border border-red-200 text-red-700{% else %}bg-indigo-50 border border-indigo-200 text-indigo-700{% endif %}">
                     <i class="ph-bold {% if message.tags == 'error' %}ph-warning-octagon{% else %}ph-check-circle{% endif %} text-xl"></i>
                     <span class="text-sm font-semibold">{{ message }}</span>
                 </div>

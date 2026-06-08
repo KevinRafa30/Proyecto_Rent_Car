@@ -186,16 +186,3 @@ Rango de fechas específico.
 
 Tipo de Vehículo (ej. ver solo rentas de camiones o automóviles).
 
-4. DISEÑO VISUAL Y COLORES (RENTCAR)
-
-Estilo: Clean Business / Dashboard Corporativo Claro.
-
-Paleta de Colores: Slate & Indigo.
-
-Fondo general de la aplicación: #f8fafc (Tailwind bg-slate-50).
-
-Componentes, tarjetas y formularios: #ffffff (Tailwind bg-white) con bordes finos #e2e8f0 (border-slate-200).
-
-Botones de acción principal y acentos de navegación: #4f46e5 (Tailwind bg-indigo-600 / hover:bg-indigo-700).
-
-Tipografía y títulos: #0f172a (Tailwind text-slate-900).

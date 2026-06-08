@@ -18,9 +18,9 @@
     <div class="bg-white border border-slate-200 rounded-2xl p-6 flex items-center justify-between shadow-sm">
         <div>
             <p class="text-slate-500 text-xs font-bold uppercase tracking-wider">Disponibles Hoy</p>
-            <h3 class="text-3xl font-black text-emerald-600 mt-1">{{ vehiculos_disponibles }}</h3>
+            <h3 class="text-3xl font-black text-indigo-600 mt-1">{{ vehiculos_disponibles }}</h3>
         </div>
-        <div class="p-4 bg-emerald-50 text-emerald-600 rounded-xl border border-emerald-100">
+        <div class="p-4 bg-indigo-50 text-indigo-600 rounded-xl border border-indigo-100">
             <i class="ph-bold ph-sparkle text-2xl"></i>
         </div>
     </div>
@@ -69,7 +69,7 @@
                 </div>
                 <form action="{% url 'procesar_devolucion' r.id %}" method="post">
                     {% csrf_token %}
-                    <button type="submit" class="bg-emerald-500 hover:bg-emerald-600 text-white text-xs font-bold px-3 py-2 rounded-lg transition flex items-center gap-1 shadow-sm shadow-emerald-500/20">
+                    <button type="submit" class="bg-indigo-650 hover:bg-indigo-700 text-white text-xs font-bold px-3 py-2 rounded-lg transition flex items-center gap-1 shadow-sm shadow-indigo-500/20">
                         <i class="ph-bold ph-check"></i> Recibir
                     </button>
                 </form>
@@ -114,10 +114,10 @@
 <div class="bg-white border border-slate-200 rounded-2xl p-6 mb-8 shadow-sm">
     <div class="flex items-center justify-between mb-6">
         <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
-            <i class="ph-bold ph-pulse text-emerald-500"></i> Monitoreo de Flota
+            <i class="ph-bold ph-pulse text-indigo-500"></i> Monitoreo de Flota
         </h3>
         <div class="flex gap-2">
-            <span class="text-xs bg-emerald-50 text-emerald-600 border border-emerald-100 px-2.5 py-1 rounded-full font-semibold">Disponible</span>
+            <span class="text-xs bg-indigo-50 text-indigo-600 border border-indigo-100 px-2.5 py-1 rounded-full font-semibold">Disponible</span>
             <span class="text-xs bg-blue-50 text-blue-600 border border-blue-100 px-2.5 py-1 rounded-full font-semibold">Rentado</span>
             <span class="text-xs bg-amber-50 text-amber-600 border border-amber-100 px-2.5 py-1 rounded-full font-semibold">Mantenimiento</span>
         </div>
@@ -133,7 +133,7 @@
                 </div>
                 <!-- Badge de Estado -->
                 <span class="text-xs px-2.5 py-1 rounded-full font-bold border 
-                    {% if vehiculo.estado == 'Disponible' %}bg-emerald-50 text-emerald-600 border-emerald-100
+                    {% if vehiculo.estado == 'Disponible' %}bg-indigo-50 text-indigo-600 border-indigo-100
                     {% elif vehiculo.estado == 'Rentado' %}bg-blue-50 text-blue-600 border-blue-100
                     {% else %}bg-amber-50 text-amber-600 border-amber-100{% endif %}">
                     {{ vehiculo.estado }}

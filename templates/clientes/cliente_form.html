@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+<div class="max-w-2xl mx-auto bg-white border border-slate-200 rounded-2xl p-8 shadow-sm">
+    <div class="flex items-center gap-3 mb-6">
+        <div class="p-3 bg-indigo-50 text-indigo-600 rounded-xl border border-indigo-100">
+            <i class="ph-bold ph-users text-2xl"></i>
+        </div>
+        <h2 class="text-xl font-bold text-slate-800">{{ title }}</h2>
+    </div>
+
+    <form method="post" id="clienteForm" class="space-y-6">
+        {% csrf_token %}
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div>
+                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Nombre Completo</label>
+                {{ form.nombre }}
+                {% if form.nombre.errors %}
+                <p class="text-red-500 text-xs mt-1">{{ form.nombre.errors.0 }}</p>
+                {% endif %}
+            </div>
+            <div>
+                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Cédula / RNC (11 dígitos, sin guiones)</label>
+                {{ form.cedula_rnc }}
+                {% if form.cedula_rnc.errors %}
+                <p class="text-red-500 text-xs mt-1">{{ form.cedula_rnc.errors.0 }}</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div>
+                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">No. Tarjeta de Crédito</label>
+                {{ form.no_tarjeta_cr }}
+                {% if form.no_tarjeta_cr.errors %}
+                <p class="text-red-500 text-xs mt-1">{{ form.no_tarjeta_cr.errors.0 }}</p>
+                {% endif %}
+            </div>
+            <div>
+                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Límite de Crédito</label>
+                {{ form.limite_credito }}
+                {% if form.limite_credito.errors %}
+                <p class="text-red-500 text-xs mt-1">{{ form.limite_credito.errors.0 }}</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div>
+                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Tipo Persona</label>
+                {{ form.tipo_persona }}
+                {% if form.tipo_persona.errors %}
+                <p class="text-red-500 text-xs mt-1">{{ form.tipo_persona.errors.0 }}</p>
+                {% endif %}
+            </div>
+            <div>
+                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Estado</label>
+                {{ form.estado }}
+                {% if form.estado.errors %}
+                <p class="text-red-500 text-xs mt-1">{{ form.estado.errors.0 }}</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="flex justify-end gap-4 pt-4 border-t border-slate-100">
+            <a href="{% url 'cliente_list' %}" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-bold px-6 py-3 rounded-xl transition">Cancelar</a>
+            <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-8 py-3 rounded-xl shadow-sm transition text-sm">Guardar</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    document.querySelectorAll('#clienteForm input, #clienteForm select, #clienteForm textarea').forEach(element => {
+        if (element.type !== 'checkbox' && element.type !== 'submit' && element.type !== 'hidden') {
+            element.className = 'w-full bg-slate-50 text-slate-800 rounded-xl border border-slate-200 p-2.5 focus:ring-2 focus:ring-indigo-500 focus:outline-none transition';
+        }
+    });
+</script>
+{% endblock %}

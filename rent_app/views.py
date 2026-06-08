@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.utils import timezone
 from django.utils.translation import gettext as _
 from .models import Vehiculo, Cliente, Empleado, RentaDevolucion, Inspeccion, TipoVehiculo, Marca, Modelo, TipoCombustible
-from .forms import RentaForm, InspeccionForm, TipoVehiculoForm, MarcaForm, ModeloForm, TipoCombustibleForm
+from .forms import RentaForm, InspeccionForm, TipoVehiculoForm, MarcaForm, ModeloForm, TipoCombustibleForm, ClienteForm, EmpleadoForm, VehiculoForm
 
 # Dashboard Principal Dinámico (Kpis, Alertas, Logs transaccionales)
 def dashboard(request):
@@ -251,3 +251,114 @@ def delete_tipo_combustible(request, pk):
         messages.success(request, _("¡Tipo de combustible eliminado con éxito!"))
         return redirect('tipo_combustible_list')
     return render(request, 'parametros/confirm_delete.html', {'object': obj, 'cancel_url': 'tipo_combustible_list', 'title': _("Eliminar Tipo de Combustible")})
+
+
+# CRUD for Cliente
+def list_cliente(request):
+    objects = Cliente.objects.all().order_by('id')
+    return render(request, 'clientes/cliente_list.html', {'objects': objects})
+
+def create_cliente(request):
+    if request.method == 'POST':
+        form = ClienteForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, _("¡Cliente creado con éxito!"))
+            return redirect('cliente_list')
+    else:
+        form = ClienteForm()
+    return render(request, 'clientes/cliente_form.html', {'form': form, 'title': _("Nuevo Cliente")})
+
+def edit_cliente(request, pk):
+    obj = get_object_or_404(Cliente, pk=pk)
+    if request.method == 'POST':
+        form = ClienteForm(request.POST, instance=obj)
+        if form.is_valid():
+            form.save()
+            messages.success(request, _("¡Cliente actualizado con éxito!"))
+            return redirect('cliente_list')
+    else:
+        form = ClienteForm(instance=obj)
+    return render(request, 'clientes/cliente_form.html', {'form': form, 'title': _("Editar Cliente"), 'object': obj})
+
+def delete_cliente(request, pk):
+    obj = get_object_or_404(Cliente, pk=pk)
+    if request.method == 'POST':
+        obj.delete()
+        messages.success(request, _("¡Cliente eliminado con éxito!"))
+        return redirect('cliente_list')
+    return render(request, 'parametros/confirm_delete.html', {'object': obj, 'cancel_url': 'cliente_list', 'title': _("Eliminar Cliente")})
+
+
+# CRUD for Empleado
+def list_empleado(request):
+    objects = Empleado.objects.all().order_by('id')
+    return render(request, 'empleados/empleado_list.html', {'objects': objects})
+
+def create_empleado(request):
+    if request.method == 'POST':
+        form = EmpleadoForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, _("¡Empleado creado con éxito!"))
+            return redirect('empleado_list')
+    else:
+        form = EmpleadoForm()
+    return render(request, 'empleados/empleado_form.html', {'form': form, 'title': _("Nuevo Empleado")})
+
+def edit_empleado(request, pk):
+    obj = get_object_or_404(Empleado, pk=pk)
+    if request.method == 'POST':
+        form = EmpleadoForm(request.POST, instance=obj)
+        if form.is_valid():
+            form.save()
+            messages.success(request, _("¡Empleado actualizado con éxito!"))
+            return redirect('empleado_list')
+    else:
+        form = EmpleadoForm(instance=obj)
+    return render(request, 'empleados/empleado_form.html', {'form': form, 'title': _("Editar Empleado"), 'object': obj})
+
+def delete_empleado(request, pk):
+    obj = get_object_or_404(Empleado, pk=pk)
+    if request.method == 'POST':
+        obj.delete()
+        messages.success(request, _("¡Empleado eliminado con éxito!"))
+        return redirect('empleado_list')
+    return render(request, 'parametros/confirm_delete.html', {'object': obj, 'cancel_url': 'empleado_list', 'title': _("Eliminar Empleado")})
+
+
+# CRUD for Vehiculo
+def list_vehiculo(request):
+    objects = Vehiculo.objects.all().order_by('id')
+    return render(request, 'vehiculos/vehiculo_list.html', {'objects': objects})
+
+def create_vehiculo(request):
+    if request.method == 'POST':
+        form = VehiculoForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, _("¡Vehículo creado con éxito!"))
+            return redirect('vehiculo_list')
+    else:
+        form = VehiculoForm()
+    return render(request, 'vehiculos/vehiculo_form.html', {'form': form, 'title': _("Nuevo Vehículo")})
+
+def edit_vehiculo(request, pk):
+    obj = get_object_or_404(Vehiculo, pk=pk)
+    if request.method == 'POST':
+        form = VehiculoForm(request.POST, instance=obj)
+        if form.is_valid():
+            form.save()
+            messages.success(request, _("¡Vehículo actualizado con éxito!"))
+            return redirect('vehiculo_list')
+    else:
+        form = VehiculoForm(instance=obj)
+    return render(request, 'vehiculos/vehiculo_form.html', {'form': form, 'title': _("Editar Vehículo"), 'object': obj})
+
+def delete_vehiculo(request, pk):
+    obj = get_object_or_404(Vehiculo, pk=pk)
+    if request.method == 'POST':
+        obj.delete()
+        messages.success(request, _("¡Vehículo eliminado con éxito!"))
+        return redirect('vehiculo_list')
+    return render(request, 'parametros/confirm_delete.html', {'object': obj, 'cancel_url': 'vehiculo_list', 'title': _("Eliminar Vehículo")})

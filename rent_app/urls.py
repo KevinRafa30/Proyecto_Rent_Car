@@ -30,4 +30,22 @@ urlpatterns = [
     path('parametros/combustibles/nuevo/', views.create_tipo_combustible, name='tipo_combustible_create'),
     path('parametros/combustibles/editar/<int:pk>/', views.edit_tipo_combustible, name='tipo_combustible_edit'),
     path('parametros/combustibles/eliminar/<int:pk>/', views.delete_tipo_combustible, name='tipo_combustible_delete'),
+
+    # Cliente URLs
+    path('clientes/', views.list_cliente, name='cliente_list'),
+    path('clientes/nuevo/', views.create_cliente, name='cliente_create'),
+    path('clientes/editar/<int:pk>/', views.edit_cliente, name='cliente_edit'),
+    path('clientes/eliminar/<int:pk>/', views.delete_cliente, name='cliente_delete'),
+
+    # Empleado URLs
+    path('empleados/', views.list_empleado, name='empleado_list'),
+    path('empleados/nuevo/', views.create_empleado, name='empleado_create'),
+    path('empleados/editar/<int:pk>/', views.edit_empleado, name='empleado_edit'),
+    path('empleados/eliminar/<int:pk>/', views.delete_empleado, name='empleado_delete'),
+
+    # Vehiculo URLs
+    path('vehiculos/', views.list_vehiculo, name='vehiculo_list'),
+    path('vehiculos/nuevo/', views.create_vehiculo, name='vehiculo_create'),
+    path('vehiculos/editar/<int:pk>/', views.edit_vehiculo, name='vehiculo_edit'),
+    path('vehiculos/eliminar/<int:pk>/', views.delete_vehiculo, name='vehiculo_delete'),
 ]

@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class="max-w-md mx-auto bg-white border border-slate-200 rounded-2xl p-8 text-center shadow-sm">
-    <div class="w-16 h-16 bg-emerald-50 text-emerald-600 border border-emerald-100 rounded-full flex items-center justify-center mx-auto mb-6">
+    <div class="w-16 h-16 bg-indigo-50 text-indigo-600 border border-indigo-100 rounded-full flex items-center justify-center mx-auto mb-6">
         <i class="ph-bold ph-key text-3xl"></i>
     </div>
     
@@ -16,7 +16,7 @@
     <form method="post" class="flex gap-4">
         {% csrf_token %}
         <a href="{% url 'dashboard' %}" class="w-1/2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-bold py-3 rounded-xl transition">Cancelar</a>
-        <button type="submit" class="w-1/2 bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-bold py-3 rounded-xl shadow-sm transition">Confirmar Recibo</button>
+        <button type="submit" class="w-1/2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold py-3 rounded-xl shadow-sm transition">Confirmar Recibo</button>
     </form>
 </div>
 {% endblock %}
