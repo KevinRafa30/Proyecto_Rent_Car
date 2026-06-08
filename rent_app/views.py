@@ -362,3 +362,75 @@ def delete_vehiculo(request, pk):
         messages.success(request, _("¡Vehículo eliminado con éxito!"))
         return redirect('vehiculo_list')
     return render(request, 'parametros/confirm_delete.html', {'object': obj, 'cancel_url': 'vehiculo_list', 'title': _("Eliminar Vehículo")})
+
+
+# Consulta de Rentas
+def consulta_rentas(request):
+    rentas = RentaDevolucion.objects.all()
+    
+    # Get parameters
+    cliente_id = request.GET.get('cliente')
+    vehiculo_id = request.GET.get('vehiculo')
+    fecha_inicio = request.GET.get('fecha_inicio')
+    fecha_fin = request.GET.get('fecha_fin')
+    
+    if cliente_id:
+        rentas = rentas.filter(cliente_id=cliente_id)
+    if vehiculo_id:
+        rentas = rentas.filter(vehiculo_id=vehiculo_id)
+    if fecha_inicio:
+        rentas = rentas.filter(fecha_renta__gte=fecha_inicio)
+    if fecha_fin:
+        rentas = rentas.filter(fecha_renta__lte=fecha_fin)
+        
+    rentas = rentas.order_by('-id')
+    
+    clientes = Cliente.objects.filter(estado='Activo')
+    vehiculos = Vehiculo.objects.all()
+    
+    context = {
+        'rentas': rentas,
+        'clientes': clientes,
+        'vehiculos': vehiculos,
+        'selected_cliente': int(cliente_id) if cliente_id else None,
+        'selected_vehiculo': int(vehiculo_id) if vehiculo_id else None,
+        'selected_fecha_inicio': fecha_inicio,
+        'selected_fecha_fin': fecha_fin,
+    }
+    return render(request, 'consulta_rentas.html', context)
+
+
+# Reporte de Rentas para Exportación
+def reporte_rentas(request):
+    rentas = RentaDevolucion.objects.all()
+    
+    # Get parameters
+    fecha_inicio = request.GET.get('fecha_inicio')
+    fecha_fin = request.GET.get('fecha_fin')
+    tipo_vehiculo_id = request.GET.get('tipo_vehiculo')
+    
+    if fecha_inicio:
+        rentas = rentas.filter(fecha_renta__gte=fecha_inicio)
+    if fecha_fin:
+        rentas = rentas.filter(fecha_renta__lte=fecha_fin)
+    if tipo_vehiculo_id:
+        rentas = rentas.filter(vehiculo__tipo_vehiculo_id=tipo_vehiculo_id)
+        
+    rentas = rentas.order_by('-id')
+    
+    # Calculate sum total
+    total_monto = 0
+    for r in rentas:
+        total_monto += r.monto_x_dia * r.cantidad_dias
+        
+    tipos_vehiculo = TipoVehiculo.objects.filter(estado='Activo')
+    
+    context = {
+        'rentas': rentas,
+        'total_monto': total_monto,
+        'tipos_vehiculo': tipos_vehiculo,
+        'selected_fecha_inicio': fecha_inicio,
+        'selected_fecha_fin': fecha_fin,
+        'selected_tipo_vehiculo': int(tipo_vehiculo_id) if tipo_vehiculo_id else None,
+    }
+    return render(request, 'reporte_rentas.html', context)
