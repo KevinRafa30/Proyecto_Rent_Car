@@ -1,11 +1,15 @@
 from django.urls import path
+from django.contrib.auth import views as auth_views
 from . import views
 
 urlpatterns = [
     path('', views.dashboard, name='dashboard'),
+    path('login/', auth_views.LoginView.as_view(template_name='registration/login.html'), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('renta/nueva/', views.registrar_renta, name='registrar_renta'),
     path('renta/devolucion/<int:renta_id>/', views.procesar_devolucion, name='procesar_devolucion'),
     path('inspeccion/nueva/', views.registrar_inspeccion, name='registrar_inspeccion'),
+
 
     # TipoVehiculo URLs
     path('parametros/tipos/', views.list_tipo_vehiculo, name='tipo_vehiculo_list'),
