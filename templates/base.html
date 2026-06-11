@@ -147,7 +147,18 @@
                 <a href="{% url 'admin:index' %}" class="flex items-center gap-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-2 rounded-xl text-xs font-semibold transition">
                     <i class="ph-bold ph-gear text-sm"></i> Admin
                 </a>
+
+                <!-- Cerrar Sesión -->
+                {% if user.is_authenticated %}
+                <form action="{% url 'logout' %}" method="post" class="inline">
+                    {% csrf_token %}
+                    <button type="submit" class="flex items-center gap-1.5 bg-red-50 hover:bg-red-100 text-red-600 px-3 py-2 rounded-xl text-xs font-semibold transition border border-red-100">
+                        <i class="ph-bold ph-sign-out text-sm"></i> Cerrar Sesión
+                    </button>
+                </form>
+                {% endif %}
             </div>
+
         </header>
 
         <!-- Main Workspace -->
