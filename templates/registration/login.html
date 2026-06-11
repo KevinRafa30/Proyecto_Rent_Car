@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-slate-50">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RentCar - Iniciar Sesión</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4f46e5',
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <style>
+        input:focus {
+            box-shadow: 0 0 10px rgba(79, 70, 229, 0.15);
+            border-color: #4f46e5 !important;
+        }
+    </style>
+</head>
+<body class="h-full bg-slate-50 flex items-center justify-center font-sans px-4">
+    <div class="w-full max-w-md">
+        <!-- Logo / Brand -->
+        <div class="flex flex-col items-center mb-8">
+            <div class="p-3 bg-gradient-to-tr from-indigo-500 to-violet-500 rounded-2xl text-white flex items-center justify-center shadow-xl shadow-indigo-500/20 mb-3">
+                <i class="ph-fill ph-car-profile text-3xl"></i>
+            </div>
+            <h1 class="text-2xl font-black tracking-wider text-slate-800">RENTCAR</h1>
+            <p class="text-slate-500 text-sm mt-1">Sistema de Gestión de Renta de Vehículos</p>
+        </div>
+
+        <!-- Card container -->
+        <div class="bg-white border border-slate-200 rounded-2xl shadow-xl shadow-slate-100 p-8">
+            <h2 class="text-xl font-bold text-slate-800 mb-6">Iniciar Sesión</h2>
+
+            {% if form.errors %}
+            <div class="p-4 mb-6 text-sm text-red-700 bg-red-50 border border-red-200 rounded-xl flex items-start gap-3">
+                <i class="ph-bold ph-warning-circle text-lg mt-0.5 flex-shrink-0"></i>
+                <div>
+                    <span class="font-bold">Error:</span> Usuario o contraseña incorrectos. Por favor, intente de nuevo.
+                </div>
+            </div>
+            {% endif %}
+
+            <form method="post" action="{% url 'login' %}" class="space-y-5">
+                {% csrf_token %}
+                
+                <!-- Next parameter redirection redirect support -->
+                <input type="hidden" name="next" value="{{ next }}">
+
+                <div>
+                    <label for="id_username" class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Usuario</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                            <i class="ph ph-user text-lg"></i>
+                        </div>
+                        <input type="text" name="username" id="id_username" required autofocus
+                            class="block w-full pl-10 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm placeholder-slate-400 text-slate-800 focus:outline-none focus:bg-white transition"
+                            placeholder="Ingrese su usuario">
+                    </div>
+                </div>
+
+                <div>
+                    <label for="id_password" class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Contraseña</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                            <i class="ph ph-lock text-lg"></i>
+                        </div>
+                        <input type="password" name="password" id="id_password" required
+                            class="block w-full pl-10 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm placeholder-slate-400 text-slate-800 focus:outline-none focus:bg-white transition"
+                            placeholder="••••••••">
+                    </div>
+                </div>
+
+                <button type="submit"
+                    class="w-full py-3 px-4 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white font-bold text-sm rounded-xl transition shadow-lg shadow-indigo-600/10 focus:outline-none">
+                    Acceder al Sistema
+                </button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
