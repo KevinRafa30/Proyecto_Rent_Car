@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.utils import timezone
 from django.utils.translation import gettext as _
+from django.db.models import ProtectedError
 from .models import Vehiculo, Cliente, Empleado, RentaDevolucion, Inspeccion, TipoVehiculo, Marca, Modelo, TipoCombustible
 from .forms import RentaForm, InspeccionForm, TipoVehiculoForm, MarcaForm, ModeloForm, TipoCombustibleForm, ClienteForm, EmpleadoForm, VehiculoForm
 
@@ -145,8 +146,15 @@ def edit_tipo_vehiculo(request, pk):
 def delete_tipo_vehiculo(request, pk):
     obj = get_object_or_404(TipoVehiculo, pk=pk)
     if request.method == 'POST':
-        obj.delete()
-        messages.success(request, _("¡Tipo de vehículo eliminado con éxito!"))
+        try:
+
+            obj.delete()
+
+            messages.success(request, _("¡Eliminado con éxito!"))
+
+        except ProtectedError:
+
+            messages.error(request, _("No se puede eliminar este registro porque está referenciado en otra transacción (ej. un Vehículo o Renta)."))
         return redirect('tipo_vehiculo_list')
     return render(request, 'parametros/confirm_delete.html', {'object': obj, 'cancel_url': 'tipo_vehiculo_list', 'title': _("Eliminar Tipo de Vehículo")})
 
@@ -186,8 +194,15 @@ def edit_marca(request, pk):
 def delete_marca(request, pk):
     obj = get_object_or_404(Marca, pk=pk)
     if request.method == 'POST':
-        obj.delete()
-        messages.success(request, _("¡Marca eliminada con éxito!"))
+        try:
+
+            obj.delete()
+
+            messages.success(request, _("¡Eliminado con éxito!"))
+
+        except ProtectedError:
+
+            messages.error(request, _("No se puede eliminar este registro porque está referenciado en otra transacción (ej. un Vehículo o Renta)."))
         return redirect('marca_list')
     return render(request, 'parametros/confirm_delete.html', {'object': obj, 'cancel_url': 'marca_list', 'title': _("Eliminar Marca")})
 
@@ -227,8 +242,15 @@ def edit_modelo(request, pk):
 def delete_modelo(request, pk):
     obj = get_object_or_404(Modelo, pk=pk)
     if request.method == 'POST':
-        obj.delete()
-        messages.success(request, _("¡Modelo eliminado con éxito!"))
+        try:
+
+            obj.delete()
+
+            messages.success(request, _("¡Eliminado con éxito!"))
+
+        except ProtectedError:
+
+            messages.error(request, _("No se puede eliminar este registro porque está referenciado en otra transacción (ej. un Vehículo o Renta)."))
         return redirect('modelo_list')
     return render(request, 'parametros/confirm_delete.html', {'object': obj, 'cancel_url': 'modelo_list', 'title': _("Eliminar Modelo")})
 
@@ -268,8 +290,15 @@ def edit_tipo_combustible(request, pk):
 def delete_tipo_combustible(request, pk):
     obj = get_object_or_404(TipoCombustible, pk=pk)
     if request.method == 'POST':
-        obj.delete()
-        messages.success(request, _("¡Tipo de combustible eliminado con éxito!"))
+        try:
+
+            obj.delete()
+
+            messages.success(request, _("¡Eliminado con éxito!"))
+
+        except ProtectedError:
+
+            messages.error(request, _("No se puede eliminar este registro porque está referenciado en otra transacción (ej. un Vehículo o Renta)."))
         return redirect('tipo_combustible_list')
     return render(request, 'parametros/confirm_delete.html', {'object': obj, 'cancel_url': 'tipo_combustible_list', 'title': _("Eliminar Tipo de Combustible")})
 
@@ -309,8 +338,15 @@ def edit_cliente(request, pk):
 def delete_cliente(request, pk):
     obj = get_object_or_404(Cliente, pk=pk)
     if request.method == 'POST':
-        obj.delete()
-        messages.success(request, _("¡Cliente eliminado con éxito!"))
+        try:
+
+            obj.delete()
+
+            messages.success(request, _("¡Eliminado con éxito!"))
+
+        except ProtectedError:
+
+            messages.error(request, _("No se puede eliminar este registro porque está referenciado en otra transacción (ej. un Vehículo o Renta)."))
         return redirect('cliente_list')
     return render(request, 'parametros/confirm_delete.html', {'object': obj, 'cancel_url': 'cliente_list', 'title': _("Eliminar Cliente")})
 
@@ -350,8 +386,15 @@ def edit_empleado(request, pk):
 def delete_empleado(request, pk):
     obj = get_object_or_404(Empleado, pk=pk)
     if request.method == 'POST':
-        obj.delete()
-        messages.success(request, _("¡Empleado eliminado con éxito!"))
+        try:
+
+            obj.delete()
+
+            messages.success(request, _("¡Eliminado con éxito!"))
+
+        except ProtectedError:
+
+            messages.error(request, _("No se puede eliminar este registro porque está referenciado en otra transacción (ej. un Vehículo o Renta)."))
         return redirect('empleado_list')
     return render(request, 'parametros/confirm_delete.html', {'object': obj, 'cancel_url': 'empleado_list', 'title': _("Eliminar Empleado")})
 
@@ -391,8 +434,15 @@ def edit_vehiculo(request, pk):
 def delete_vehiculo(request, pk):
     obj = get_object_or_404(Vehiculo, pk=pk)
     if request.method == 'POST':
-        obj.delete()
-        messages.success(request, _("¡Vehículo eliminado con éxito!"))
+        try:
+
+            obj.delete()
+
+            messages.success(request, _("¡Eliminado con éxito!"))
+
+        except ProtectedError:
+
+            messages.error(request, _("No se puede eliminar este registro porque está referenciado en otra transacción (ej. un Vehículo o Renta)."))
         return redirect('vehiculo_list')
     return render(request, 'parametros/confirm_delete.html', {'object': obj, 'cancel_url': 'vehiculo_list', 'title': _("Eliminar Vehículo")})
 
