@@ -3,6 +3,40 @@ from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
 
+def validar_cedula_rnc(valor):
+    valor = valor.replace("-", "").strip()
+    if not valor.isdigit():
+        raise ValidationError(_("La cédula o RNC debe contener solo números."))
+    
+    if len(valor) == 11:
+        # Validar Cédula
+        suma = 0
+        multiplicadores = [1, 2, 1, 2, 1, 2, 1, 2, 1, 2]
+        for i in range(10):
+            digito = int(valor[i]) * multiplicadores[i]
+            if digito >= 10:
+                digito = (digito // 10) + (digito % 10)
+            suma += digito
+        digito_verificador = (10 - (suma % 10)) % 10
+        if digito_verificador != int(valor[10]):
+            raise ValidationError(_("La cédula ingresada no es válida."))
+            
+    elif len(valor) == 9:
+        # Validar RNC
+        pesos = [7, 9, 8, 6, 5, 4, 3, 2]
+        suma = sum(int(valor[i]) * pesos[i] for i in range(8))
+        resto = suma % 11
+        if resto == 0:
+            dv = 2
+        elif resto == 1:
+            dv = 1
+        else:
+            dv = 11 - resto
+        if dv != int(valor[8]):
+            raise ValidationError(_("El RNC ingresado no es válido."))
+    else:
+        raise ValidationError(_("La cédula debe tener 11 dígitos y el RNC 9 dígitos."))
+
 class EstadoActivo(models.TextChoices):
     ACTIVO = 'Activo', _('Activo')
     INACTIVO = 'Inactivo', _('Inactivo')
@@ -68,7 +102,7 @@ class Cliente(models.Model):
         JURIDICA = 'Juridica', _('Jurídica')
 
     nombre = models.CharField(max_length=150, verbose_name=_("Nombre Completo"))
-    cedula_rnc = models.CharField(max_length=20, unique=True, verbose_name=_("Cédula / RNC"))
+    cedula_rnc = models.CharField(max_length=20, unique=True, verbose_name=_("Cédula / RNC"), validators=[validar_cedula_rnc])
     no_tarjeta_cr = models.CharField(max_length=19, verbose_name=_("No. Tarjeta de Crédito"))
     limite_credito = models.DecimalField(max_digits=12, decimal_places=2, verbose_name=_("Límite de Crédito"))
     tipo_persona = models.CharField(max_length=15, choices=TipoPersona.choices, default=TipoPersona.FISICA)
@@ -85,7 +119,7 @@ class Empleado(models.Model):
         NOCTURNA = 'Nocturna', _('Nocturna')
 
     nombre = models.CharField(max_length=150, verbose_name=_("Nombre"))
-    cedula = models.CharField(max_length=20, unique=True, verbose_name=_("Cédula"))
+    cedula = models.CharField(max_length=20, unique=True, verbose_name=_("Cédula"), validators=[validar_cedula_rnc])
     tanda_labor = models.CharField(max_length=15, choices=TandaLaboral.choices, default=TandaLaboral.MATUTINA)
     porc_comision = models.DecimalField(max_digits=5, decimal_places=2, verbose_name=_("Porcentaje Comisión (%)"))
     fecha_ingreso = models.DateField(default=timezone.now, verbose_name=_("Fecha de Ingreso"))
