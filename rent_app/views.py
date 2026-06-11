@@ -67,7 +67,7 @@ def registrar_renta(request):
             try:
                 form.save()
                 messages.success(request, _("¡Renta registrada con éxito y comisión del empleado calculada!"))
-                return redirect('inspeccion_list')
+                return redirect('renta_list')
             except Exception as e:
                 messages.error(request, f"Error: {e}")
         else:
@@ -85,6 +85,53 @@ def registrar_renta(request):
         'vehiculos_data': vehiculos_data,
         'title': _("Nueva Renta de Vehículo")
     })
+
+
+@login_required
+def renta_list(request):
+    objects = RentaDevolucion.objects.all().order_by('-fecha_renta')
+    return render(request, 'rentas/renta_list.html', {'objects': objects})
+
+@login_required
+def edit_renta(request, pk):
+    obj = get_object_or_404(RentaDevolucion, pk=pk)
+    if request.method == 'POST':
+        form = RentaForm(request.POST, instance=obj)
+        if form.is_valid():
+            form.save()
+            messages.success(request, _("Renta actualizada con éxito."))
+            return redirect('renta_list')
+    else:
+        form = RentaForm(instance=obj)
+    
+    clientes_data = Cliente.objects.filter(estado='Activo')
+    vehiculos_data = Vehiculo.objects.filter(estado=Vehiculo.EstadoVehiculo.DISPONIBLE)
+    # Include current vehicle if it's not in the available ones
+    if obj.vehiculo not in vehiculos_data:
+        vehiculos_data = vehiculos_data | Vehiculo.objects.filter(pk=obj.vehiculo.pk)
+
+    return render(request, 'rent_form.html', {
+        'form': form, 
+        'title': _("Editar Renta"),
+        'clientes_data': clientes_data,
+        'vehiculos_data': vehiculos_data,
+    })
+
+@login_required
+def delete_renta(request, pk):
+    obj = get_object_or_404(RentaDevolucion, pk=pk)
+    if request.method == 'POST':
+        try:
+            if obj.estado == 'Rentado':
+                vehiculo = obj.vehiculo
+                vehiculo.estado = Vehiculo.EstadoVehiculo.DISPONIBLE
+                vehiculo.save()
+            obj.delete()
+            messages.success(request, _("¡Renta eliminada con éxito!"))
+        except ProtectedError:
+            messages.error(request, _("No se puede eliminar este registro porque está referenciado en otra transacción."))
+        return redirect('renta_list')
+    return render(request, 'parametros/confirm_delete.html', {'object': obj, 'cancel_url': 'renta_list', 'title': _("Eliminar Renta")})
 
 # Retornar/Devolver Renta
 @login_required
