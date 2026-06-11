@@ -8,7 +8,10 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('renta/nueva/', views.registrar_renta, name='registrar_renta'),
     path('renta/devolucion/<int:renta_id>/', views.procesar_devolucion, name='procesar_devolucion'),
+    path('inspecciones/', views.inspeccion_list, name='inspeccion_list'),
     path('inspeccion/nueva/', views.registrar_inspeccion, name='registrar_inspeccion'),
+    path('inspeccion/editar/<int:pk>/', views.edit_inspeccion, name='edit_inspeccion'),
+    path('inspeccion/eliminar/<int:pk>/', views.delete_inspeccion, name='delete_inspeccion'),
 
 
     # TipoVehiculo URLs

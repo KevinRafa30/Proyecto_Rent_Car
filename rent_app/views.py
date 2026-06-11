@@ -67,7 +67,7 @@ def registrar_renta(request):
             try:
                 form.save()
                 messages.success(request, _("¡Renta registrada con éxito y comisión del empleado calculada!"))
-                return redirect('dashboard')
+                return redirect('inspeccion_list')
             except Exception as e:
                 messages.error(request, f"Error: {e}")
         else:
@@ -94,7 +94,7 @@ def procesar_devolucion(request, renta_id):
         renta.estado = RentaDevolucion.EstadoTransaccion.DEVUELTO
         renta.save()
         messages.success(request, _("Vehículo devuelto con éxito. Flota actualizada."))
-        return redirect('dashboard')
+        return redirect('inspeccion_list')
     return render(request, 'devolucion_confirm.html', {'renta': renta})
 
 # Registrar Inspección Física Técnica
@@ -105,10 +105,41 @@ def registrar_inspeccion(request):
         if form.is_valid():
             form.save()
             messages.success(request, _("Inspección física del vehículo completada con éxito."))
-            return redirect('dashboard')
+            return redirect('inspeccion_list')
     else:
         form = InspeccionForm()
     return render(request, 'inspection_form.html', {'form': form, 'title': _("Inspección Física de Vehículo")})
+
+@login_required
+def inspeccion_list(request):
+    objects = Inspeccion.objects.all().order_by('-fecha_inspeccion')
+    return render(request, 'inspecciones/inspeccion_list.html', {'objects': objects})
+
+@login_required
+def edit_inspeccion(request, pk):
+    obj = get_object_or_404(Inspeccion, pk=pk)
+    if request.method == 'POST':
+        form = InspeccionForm(request.POST, instance=obj)
+        if form.is_valid():
+            form.save()
+            messages.success(request, _("Inspección actualizada con éxito."))
+            return redirect('inspeccion_list')
+    else:
+        form = InspeccionForm(instance=obj)
+    return render(request, 'inspection_form.html', {'form': form, 'title': _("Editar Inspección")})
+
+@login_required
+def delete_inspeccion(request, pk):
+    obj = get_object_or_404(Inspeccion, pk=pk)
+    if request.method == 'POST':
+        try:
+            obj.delete()
+            messages.success(request, _("¡Inspección eliminada con éxito!"))
+        except ProtectedError:
+            messages.error(request, _("No se puede eliminar este registro porque está referenciado en otra transacción (ej. un Vehículo o Renta)."))
+        return redirect('inspeccion_list')
+    return render(request, 'parametros/confirm_delete.html', {'object': obj, 'cancel_url': 'inspeccion_list', 'title': _("Eliminar Inspección")})
+
 
 
 # CRUD for TipoVehiculo
