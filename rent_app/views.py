@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.utils import timezone
 from django.utils.translation import gettext as _
@@ -6,6 +7,7 @@ from .models import Vehiculo, Cliente, Empleado, RentaDevolucion, Inspeccion, Ti
 from .forms import RentaForm, InspeccionForm, TipoVehiculoForm, MarcaForm, ModeloForm, TipoCombustibleForm, ClienteForm, EmpleadoForm, VehiculoForm
 
 # Dashboard Principal Dinámico (Kpis, Alertas, Logs transaccionales)
+@login_required
 def dashboard(request):
     # KPIs Clave
     total_vehiculos = Vehiculo.objects.count()
@@ -56,6 +58,7 @@ def dashboard(request):
     return render(request, 'dashboard.html', context)
 
 # Crear Renta
+@login_required
 def registrar_renta(request):
     if request.method == 'POST':
         form = RentaForm(request.POST)
@@ -83,6 +86,7 @@ def registrar_renta(request):
     })
 
 # Retornar/Devolver Renta
+@login_required
 def procesar_devolucion(request, renta_id):
     renta = get_object_or_404(RentaDevolucion, id=renta_id)
     if request.method == 'POST':
@@ -93,6 +97,7 @@ def procesar_devolucion(request, renta_id):
     return render(request, 'devolucion_confirm.html', {'renta': renta})
 
 # Registrar Inspección Física Técnica
+@login_required
 def registrar_inspeccion(request):
     if request.method == 'POST':
         form = InspeccionForm(request.POST)
@@ -106,10 +111,12 @@ def registrar_inspeccion(request):
 
 
 # CRUD for TipoVehiculo
+@login_required
 def list_tipo_vehiculo(request):
     objects = TipoVehiculo.objects.all().order_by('id')
     return render(request, 'parametros/tipo_vehiculo_list.html', {'objects': objects})
 
+@login_required
 def create_tipo_vehiculo(request):
     if request.method == 'POST':
         form = TipoVehiculoForm(request.POST)
@@ -121,6 +128,7 @@ def create_tipo_vehiculo(request):
         form = TipoVehiculoForm()
     return render(request, 'parametros/tipo_vehiculo_form.html', {'form': form, 'title': _("Nuevo Tipo de Vehículo")})
 
+@login_required
 def edit_tipo_vehiculo(request, pk):
     obj = get_object_or_404(TipoVehiculo, pk=pk)
     if request.method == 'POST':
@@ -133,6 +141,7 @@ def edit_tipo_vehiculo(request, pk):
         form = TipoVehiculoForm(instance=obj)
     return render(request, 'parametros/tipo_vehiculo_form.html', {'form': form, 'title': _("Editar Tipo de Vehículo"), 'object': obj})
 
+@login_required
 def delete_tipo_vehiculo(request, pk):
     obj = get_object_or_404(TipoVehiculo, pk=pk)
     if request.method == 'POST':
@@ -143,10 +152,12 @@ def delete_tipo_vehiculo(request, pk):
 
 
 # CRUD for Marca
+@login_required
 def list_marca(request):
     objects = Marca.objects.all().order_by('id')
     return render(request, 'parametros/marca_list.html', {'objects': objects})
 
+@login_required
 def create_marca(request):
     if request.method == 'POST':
         form = MarcaForm(request.POST)
@@ -158,6 +169,7 @@ def create_marca(request):
         form = MarcaForm()
     return render(request, 'parametros/marca_form.html', {'form': form, 'title': _("Nueva Marca")})
 
+@login_required
 def edit_marca(request, pk):
     obj = get_object_or_404(Marca, pk=pk)
     if request.method == 'POST':
@@ -170,6 +182,7 @@ def edit_marca(request, pk):
         form = MarcaForm(instance=obj)
     return render(request, 'parametros/marca_form.html', {'form': form, 'title': _("Editar Marca"), 'object': obj})
 
+@login_required
 def delete_marca(request, pk):
     obj = get_object_or_404(Marca, pk=pk)
     if request.method == 'POST':
@@ -180,10 +193,12 @@ def delete_marca(request, pk):
 
 
 # CRUD for Modelo
+@login_required
 def list_modelo(request):
     objects = Modelo.objects.all().order_by('id')
     return render(request, 'parametros/modelo_list.html', {'objects': objects})
 
+@login_required
 def create_modelo(request):
     if request.method == 'POST':
         form = ModeloForm(request.POST)
@@ -195,6 +210,7 @@ def create_modelo(request):
         form = ModeloForm()
     return render(request, 'parametros/modelo_form.html', {'form': form, 'title': _("Nuevo Modelo")})
 
+@login_required
 def edit_modelo(request, pk):
     obj = get_object_or_404(Modelo, pk=pk)
     if request.method == 'POST':
@@ -207,6 +223,7 @@ def edit_modelo(request, pk):
         form = ModeloForm(instance=obj)
     return render(request, 'parametros/modelo_form.html', {'form': form, 'title': _("Editar Modelo"), 'object': obj})
 
+@login_required
 def delete_modelo(request, pk):
     obj = get_object_or_404(Modelo, pk=pk)
     if request.method == 'POST':
@@ -217,10 +234,12 @@ def delete_modelo(request, pk):
 
 
 # CRUD for TipoCombustible
+@login_required
 def list_tipo_combustible(request):
     objects = TipoCombustible.objects.all().order_by('id')
     return render(request, 'parametros/tipo_combustible_list.html', {'objects': objects})
 
+@login_required
 def create_tipo_combustible(request):
     if request.method == 'POST':
         form = TipoCombustibleForm(request.POST)
@@ -232,6 +251,7 @@ def create_tipo_combustible(request):
         form = TipoCombustibleForm()
     return render(request, 'parametros/tipo_combustible_form.html', {'form': form, 'title': _("Nuevo Tipo de Combustible")})
 
+@login_required
 def edit_tipo_combustible(request, pk):
     obj = get_object_or_404(TipoCombustible, pk=pk)
     if request.method == 'POST':
@@ -244,6 +264,7 @@ def edit_tipo_combustible(request, pk):
         form = TipoCombustibleForm(instance=obj)
     return render(request, 'parametros/tipo_combustible_form.html', {'form': form, 'title': _("Editar Tipo de Combustible"), 'object': obj})
 
+@login_required
 def delete_tipo_combustible(request, pk):
     obj = get_object_or_404(TipoCombustible, pk=pk)
     if request.method == 'POST':
@@ -254,10 +275,12 @@ def delete_tipo_combustible(request, pk):
 
 
 # CRUD for Cliente
+@login_required
 def list_cliente(request):
     objects = Cliente.objects.all().order_by('id')
     return render(request, 'clientes/cliente_list.html', {'objects': objects})
 
+@login_required
 def create_cliente(request):
     if request.method == 'POST':
         form = ClienteForm(request.POST)
@@ -269,6 +292,7 @@ def create_cliente(request):
         form = ClienteForm()
     return render(request, 'clientes/cliente_form.html', {'form': form, 'title': _("Nuevo Cliente")})
 
+@login_required
 def edit_cliente(request, pk):
     obj = get_object_or_404(Cliente, pk=pk)
     if request.method == 'POST':
@@ -281,6 +305,7 @@ def edit_cliente(request, pk):
         form = ClienteForm(instance=obj)
     return render(request, 'clientes/cliente_form.html', {'form': form, 'title': _("Editar Cliente"), 'object': obj})
 
+@login_required
 def delete_cliente(request, pk):
     obj = get_object_or_404(Cliente, pk=pk)
     if request.method == 'POST':
@@ -291,10 +316,12 @@ def delete_cliente(request, pk):
 
 
 # CRUD for Empleado
+@login_required
 def list_empleado(request):
     objects = Empleado.objects.all().order_by('id')
     return render(request, 'empleados/empleado_list.html', {'objects': objects})
 
+@login_required
 def create_empleado(request):
     if request.method == 'POST':
         form = EmpleadoForm(request.POST)
@@ -306,6 +333,7 @@ def create_empleado(request):
         form = EmpleadoForm()
     return render(request, 'empleados/empleado_form.html', {'form': form, 'title': _("Nuevo Empleado")})
 
+@login_required
 def edit_empleado(request, pk):
     obj = get_object_or_404(Empleado, pk=pk)
     if request.method == 'POST':
@@ -318,6 +346,7 @@ def edit_empleado(request, pk):
         form = EmpleadoForm(instance=obj)
     return render(request, 'empleados/empleado_form.html', {'form': form, 'title': _("Editar Empleado"), 'object': obj})
 
+@login_required
 def delete_empleado(request, pk):
     obj = get_object_or_404(Empleado, pk=pk)
     if request.method == 'POST':
@@ -328,10 +357,12 @@ def delete_empleado(request, pk):
 
 
 # CRUD for Vehiculo
+@login_required
 def list_vehiculo(request):
     objects = Vehiculo.objects.all().order_by('id')
     return render(request, 'vehiculos/vehiculo_list.html', {'objects': objects})
 
+@login_required
 def create_vehiculo(request):
     if request.method == 'POST':
         form = VehiculoForm(request.POST)
@@ -343,6 +374,7 @@ def create_vehiculo(request):
         form = VehiculoForm()
     return render(request, 'vehiculos/vehiculo_form.html', {'form': form, 'title': _("Nuevo Vehículo")})
 
+@login_required
 def edit_vehiculo(request, pk):
     obj = get_object_or_404(Vehiculo, pk=pk)
     if request.method == 'POST':
@@ -355,6 +387,7 @@ def edit_vehiculo(request, pk):
         form = VehiculoForm(instance=obj)
     return render(request, 'vehiculos/vehiculo_form.html', {'form': form, 'title': _("Editar Vehículo"), 'object': obj})
 
+@login_required
 def delete_vehiculo(request, pk):
     obj = get_object_or_404(Vehiculo, pk=pk)
     if request.method == 'POST':
@@ -365,6 +398,7 @@ def delete_vehiculo(request, pk):
 
 
 # Consulta de Rentas
+@login_required
 def consulta_rentas(request):
     rentas = RentaDevolucion.objects.all()
     
@@ -401,6 +435,7 @@ def consulta_rentas(request):
 
 
 # Reporte de Rentas para Exportación
+@login_required
 def reporte_rentas(request):
     rentas = RentaDevolucion.objects.all()
     
