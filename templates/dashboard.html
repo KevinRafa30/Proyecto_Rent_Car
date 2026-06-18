@@ -50,7 +50,7 @@
 </div>
 
 <!-- Panel Proactivo de Alertas Operativas -->
-<div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+<div class="grid grid-cols-1 gap-8 mb-8">
     
     <!-- Alertas: Devoluciones para Hoy -->
     <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
@@ -81,32 +81,7 @@
         {% endif %}
     </div>
 
-    <!-- Alertas: Clientes con Límite de Crédito en Riesgo -->
-    <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
-        <div class="flex items-center gap-2 mb-4">
-            <i class="ph-bold ph-warning text-red-500 text-xl"></i>
-            <h3 class="text-base font-bold text-slate-800">Alerta de Límite de Crédito Consumido (+85%)</h3>
-        </div>
 
-        {% if clientes_en_riesgo %}
-        <div class="space-y-3">
-            {% for riesgo in clientes_en_riesgo %}
-            <div class="bg-red-50 border border-red-100 rounded-xl p-4">
-                <div class="flex items-center justify-between">
-                    <span class="text-sm font-bold text-red-800">{{ riesgo.cliente.nombre }}</span>
-                    <span class="text-[10px] bg-red-100 text-red-700 px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">Crítico</span>
-                </div>
-                <div class="grid grid-cols-2 gap-2 mt-2 text-xs text-slate-500">
-                    <p>Total de la Renta: <span class="text-slate-800 font-bold">${{ riesgo.costo|floatformat:2 }}</span></p>
-                    <p>Límite Autorizado: <span class="text-slate-800 font-bold">${{ riesgo.limite|floatformat:2 }}</span></p>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-        {% else %}
-        <p class="text-slate-400 text-sm italic">Todos los clientes disponen de suficiente margen de crédito.</p>
-        {% endif %}
-    </div>
 
 </div>
 

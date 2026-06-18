@@ -35,9 +35,6 @@
     <aside id="sidebar" class="fixed inset-y-0 left-0 flex flex-col w-64 bg-white border-r border-slate-200 z-40 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out">
         <!-- Brand / Logo -->
         <div class="h-16 flex items-center gap-3 px-6 border-b border-slate-200">
-            <div class="p-2 bg-gradient-to-tr from-indigo-500 to-violet-500 rounded-xl text-white flex items-center justify-center shadow-lg shadow-indigo-500/20">
-                <i class="ph-bold ph-car-profile text-xl"></i>
-            </div>
             <span class="text-lg font-black tracking-wider text-slate-800">RENTCAR</span>
         </div>
 
@@ -133,21 +130,6 @@
 
             <!-- Right Header -->
             <div class="flex items-center gap-4">
-                <!-- Selector de Idiomas -->
-                <form action="/i18n/setlang/" method="post" class="flex items-center">
-                    {% csrf_token %}
-                    <input name="next" type="hidden" value="{{ request.path }}">
-                    <select name="language" onchange="this.form.submit()" class="bg-slate-50 border border-slate-200 text-slate-700 rounded-xl text-xs px-3 py-2 focus:outline-none focus:ring-1 focus:ring-indigo-500 font-medium">
-                        <option value="es" {% if request.LANGUAGE_CODE == 'es' %}selected{% endif %}>ES 🇪🇸</option>
-                        <option value="en" {% if request.LANGUAGE_CODE == 'en' %}selected{% endif %}>EN 🇺🇸</option>
-                    </select>
-                </form>
-
-                <!-- Admin Link -->
-                <a href="{% url 'admin:index' %}" class="flex items-center gap-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-2 rounded-xl text-xs font-semibold transition">
-                    <i class="ph-bold ph-gear text-sm"></i> Admin
-                </a>
-
                 <!-- Cerrar Sesión -->
                 {% if user.is_authenticated %}
                 <form action="{% url 'logout' %}" method="post" class="inline" id="logout-form">
