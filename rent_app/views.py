@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.utils import timezone
 from django.utils.translation import gettext as _
 from django.db.models import ProtectedError
+from decimal import Decimal
 from .models import Vehiculo, Cliente, Empleado, RentaDevolucion, Inspeccion, TipoVehiculo, Marca, Modelo, TipoCombustible
 from .forms import RentaForm, InspeccionForm, TipoVehiculoForm, MarcaForm, ModeloForm, TipoCombustibleForm, ClienteForm, EmpleadoForm, VehiculoForm
 
@@ -26,7 +27,7 @@ def dashboard(request):
     for renta in rentas_vigentes:
         costo_renta = renta.monto_x_dia * renta.cantidad_dias
         # Alerta si la renta actual consume el 85% o más del límite del cliente
-        if costo_renta >= (renta.cliente.limite_credito * 0.85):
+        if costo_renta >= (renta.cliente.limite_credito * Decimal('0.85')):
             clientes_en_riesgo.append({
                 'cliente': renta.cliente,
                 'vehiculo': renta.vehiculo,

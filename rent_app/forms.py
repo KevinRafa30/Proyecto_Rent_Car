@@ -104,8 +104,8 @@ class ClienteForm(forms.ModelForm):
             cedula_rnc = cedula_rnc.strip()
         if not cedula_rnc.isdigit():
             raise forms.ValidationError("La cédula/RNC debe contener únicamente números sin guiones o espacios.")
-        if len(cedula_rnc) != 11:
-            raise forms.ValidationError("La cédula/RNC debe tener exactamente 11 dígitos.")
+        if len(cedula_rnc) not in [9, 11]:
+            raise forms.ValidationError("La cédula debe tener 11 dígitos y el RNC 9 dígitos.")
         return cedula_rnc
 
 # Formulario Empleado
