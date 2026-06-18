@@ -4,15 +4,12 @@
     <!-- Header -->
     <div class="px-8 py-6 border-b border-slate-100 flex flex-col sm:flex-row justify-between items-center gap-4 bg-slate-50/50">
         <div class="flex items-center gap-3">
-            <div class="p-2.5 bg-indigo-50 text-indigo-600 rounded-xl border border-indigo-100">
-                <i class="ph-bold ph-shield-check text-xl"></i>
-            </div>
             <div>
                 <h2 class="text-xl font-bold text-slate-800">Inspecciones</h2>
             </div>
         </div>
         <a href="{% url 'registrar_inspeccion' %}" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2.5 px-5 rounded-xl shadow-sm transition flex items-center gap-2 text-sm">
-            <i class="ph-bold ph-plus"></i> Nueva Inspección
+            <i class="fa-solid fa-plus"></i> Nueva Inspección
         </a>
     </div>
 
@@ -44,12 +41,12 @@
                         </span>
                     </td>
                     <td class="px-6 py-4 text-right flex justify-end gap-2.5">
-                        <a href="{% url 'edit_inspeccion' item.id %}" class="p-2 bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-600 rounded-xl transition flex items-center justify-center" title="Editar">
-                            <i class="ph-bold ph-pencil-simple text-base"></i>
-                        </a>
-                        <a href="{% url 'delete_inspeccion' item.id %}" class="p-2 bg-red-600 hover:bg-red-700 border border-red-700 text-white rounded-xl transition flex items-center justify-center" title="Eliminar">
-                            <i class="ph-bold ph-trash text-base"></i>
-                        </a>
+                        <a href="{% url 'edit_inspeccion' item.id %}" class="px-3 py-1.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-600 rounded-xl transition flex items-center justify-center gap-1.5 text-xs font-bold" title="Editar">
+                                <i class="fa-solid fa-pen text-sm"></i> Editar
+                            </a>
+                        <a href="{% url 'delete_inspeccion' item.id %}" class="px-3 py-1.5 bg-red-600 hover:bg-red-700 border border-red-700 text-white rounded-xl transition flex items-center justify-center gap-1.5 text-xs font-bold" title="Eliminar">
+                                <i class="fa-solid fa-trash text-sm"></i> Eliminar
+                            </a>
                     </td>
                 </tr>
                 {% empty %}
