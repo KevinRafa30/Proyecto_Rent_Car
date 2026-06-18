@@ -248,5 +248,73 @@
             alert("Módulo de Reportes bajo desarrollo. Próximamente se integrará exportación a PDF y Excel.");
         }
     </script>
+
+    <!-- Script de Validación Personalizada (Sustituye la nativa del navegador) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('form').forEach(form => {
+                form.setAttribute('novalidate', 'true');
+                
+                form.addEventListener('submit', function(e) {
+                    if (!form.checkValidity()) {
+                        e.preventDefault(); 
+                        showCustomValidationErrors(form);
+                    }
+                });
+                
+                form.querySelectorAll('input, select, textarea').forEach(input => {
+                    input.addEventListener('input', () => removeCustomError(input));
+                    input.addEventListener('change', () => removeCustomError(input));
+                    input.addEventListener('blur', () => {
+                        if(input.checkValidity()) removeCustomError(input);
+                    });
+                });
+            });
+        });
+
+        function showCustomValidationErrors(form) {
+            let firstFocused = false;
+            form.querySelectorAll(':invalid').forEach(input => {
+                if (!input.dataset.hasCustomError) {
+                    let msg = input.tagName === 'SELECT' ? 'Por favor, selecciona un elemento de la lista.' : 'Por favor, completa este campo.';
+                    
+                    const errorDiv = document.createElement('div');
+                    errorDiv.className = 'absolute z-[70] bg-white border border-red-500 text-red-600 font-bold text-xs px-3 py-2 rounded-lg shadow-md top-full mt-1.5 left-2 w-max pointer-events-none opacity-0 transition-opacity duration-200';
+                    errorDiv.innerHTML = msg;
+                    
+                    const arrow = document.createElement('div');
+                    arrow.className = 'absolute -top-1.5 left-4 w-2.5 h-2.5 bg-white border-t border-l border-red-500 transform rotate-45';
+                    errorDiv.appendChild(arrow);
+                    
+                    input.parentElement.classList.add('relative');
+                    input.insertAdjacentElement('afterend', errorDiv);
+                    
+                    input.classList.add('border-red-500', 'ring-1', 'ring-red-500');
+                    input.dataset.hasCustomError = 'true';
+                    input.customErrorDiv = errorDiv;
+                    
+                    setTimeout(() => errorDiv.classList.remove('opacity-0'), 10);
+                    
+                    if (!firstFocused) {
+                        input.focus();
+                        firstFocused = true;
+                    }
+                }
+            });
+        }
+
+        function removeCustomError(input) {
+            if (input.dataset.hasCustomError === 'true' && input.checkValidity()) {
+                const errorDiv = input.customErrorDiv;
+                if (errorDiv) {
+                    errorDiv.classList.add('opacity-0');
+                    setTimeout(() => errorDiv.remove(), 200);
+                }
+                input.dataset.hasCustomError = 'false';
+                input.customErrorDiv = null;
+                input.classList.remove('border-red-500', 'ring-1', 'ring-red-500');
+            }
+        }
+    </script>
 </body>
 </html>

@@ -54,7 +54,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'rentacar_project.wsgi.application'
 
-# Configuración dinámica de Base de Datos (PostgreSQL por defecto, fallback a SQLite para desarrollo rápido)
+# Configuración dinámica de Base de Datos 
 if os.getenv('DB_NAME'):
     DATABASES = {
         'default': {
