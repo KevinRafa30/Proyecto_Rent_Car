@@ -89,12 +89,10 @@
 <div class="bg-white border border-slate-200 rounded-2xl p-6 mb-8 shadow-sm">
     <div class="flex items-center justify-between mb-6">
         <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
-            <i class="fa-solid fa-heart-pulse text-indigo-500"></i> Monitoreo de Flota
+            <i class="fa-solid fa-heart-pulse text-indigo-500"></i> Monitoreo de Flota Rentada
         </h3>
         <div class="flex gap-2">
-            <span class="text-xs bg-indigo-50 text-indigo-600 border border-indigo-100 px-2.5 py-1 rounded-full font-semibold">Disponible</span>
             <span class="text-xs bg-blue-50 text-blue-600 border border-blue-100 px-2.5 py-1 rounded-full font-semibold">Rentado</span>
-            <span class="text-xs bg-amber-50 text-amber-600 border border-amber-100 px-2.5 py-1 rounded-full font-semibold">Mantenimiento</span>
         </div>
     </div>
 
@@ -120,7 +118,7 @@
             </div>
         </div>
         {% empty %}
-        <p class="text-slate-400 text-sm italic col-span-3">No hay vehículos registrados en el sistema. Acceda al Administrador de Django para crearlos.</p>
+        <p class="text-slate-400 text-sm italic col-span-3">No hay vehículos rentados en este momento.</p>
         {% endfor %}
     </div>
 </div>

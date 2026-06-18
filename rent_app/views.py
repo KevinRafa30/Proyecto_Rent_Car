@@ -37,14 +37,16 @@ def dashboard(request):
             })
 
     # Listas de datos para visualización
-    ultimas_rentas = RentaDevolucion.objects.all().order_by('-id')[:5] if hasattr(RentaDevolucion.objects, 'order_by') else RentaDevolucion.objects.all()[:5]
-    # En caso de que no haya registros, evitamos errores usando un listado sencillo:
+    # Vehículos rentados para el monitoreo
+    rentas_activas_qs = RentaDevolucion.objects.filter(estado=RentaDevolucion.EstadoTransaccion.ACTIVO)
+    vehiculos_rentados_ids = rentas_activas_qs.values_list('vehiculo_id', flat=True)
+
     try:
         ultimas_rentas = RentaDevolucion.objects.order_by('-id')[:5]
-        vehiculos = Vehiculo.objects.all()
+        vehiculos = Vehiculo.objects.filter(id__in=vehiculos_rentados_ids)
     except Exception:
         ultimas_rentas = RentaDevolucion.objects.all()[:5]
-        vehiculos = Vehiculo.objects.all()
+        vehiculos = Vehiculo.objects.filter(id__in=vehiculos_rentados_ids)
 
     context = {
         'total_vehiculos': total_vehiculos,
