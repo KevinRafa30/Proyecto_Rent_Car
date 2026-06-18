@@ -42,7 +42,7 @@
         <nav class="flex-1 px-4 py-6 space-y-1.5 overflow-y-auto">
             <!-- Dashboard -->
             <a href="{% url 'dashboard' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition {% if request.resolver_match.url_name == 'dashboard' %}bg-indigo-50 text-indigo-600{% else %}text-slate-600 hover:bg-slate-50 hover:text-slate-900{% endif %}">
-                <i class="ph-bold ph-squares-four text-lg"></i> Dashboard
+                <i class="fa-solid fa-table-cells-large text-lg"></i> Dashboard
             </a>
 
             <div class="pt-4 pb-2">
@@ -51,22 +51,22 @@
 
             <!-- Tipos de Vehículos -->
             <a href="{% url 'tipo_vehiculo_list' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition {% if 'tipos' in request.path %}bg-indigo-50 text-indigo-600{% else %}text-slate-600 hover:bg-slate-50 hover:text-slate-900{% endif %}">
-                <i class="ph-bold ph-list-bullets text-lg"></i> Tipos de Vehículos
+                <i class="fa-solid fa-list text-lg"></i> Tipos de Vehículos
             </a>
 
             <!-- Marcas -->
             <a href="{% url 'marca_list' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition {% if 'marcas' in request.path %}bg-indigo-50 text-indigo-600{% else %}text-slate-600 hover:bg-slate-50 hover:text-slate-900{% endif %}">
-                <i class="ph-bold ph-tag text-lg"></i> Marcas
+                <i class="fa-solid fa-tag text-lg"></i> Marcas
             </a>
 
             <!-- Modelos -->
             <a href="{% url 'modelo_list' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition {% if 'modelos' in request.path %}bg-indigo-50 text-indigo-600{% else %}text-slate-600 hover:bg-slate-50 hover:text-slate-900{% endif %}">
-                <i class="ph-bold ph-car-simple text-lg"></i> Modelos
+                <i class="fa-solid fa-car-side text-lg"></i> Modelos
             </a>
 
             <!-- Combustibles -->
             <a href="{% url 'tipo_combustible_list' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition {% if 'combustibles' in request.path %}bg-indigo-50 text-indigo-600{% else %}text-slate-600 hover:bg-slate-50 hover:text-slate-900{% endif %}">
-                <i class="ph-bold ph-gas-pump text-lg"></i> Combustibles
+                <i class="fa-solid fa-gas-pump text-lg"></i> Combustibles
             </a>
 
             <div class="pt-4 pb-2">
@@ -75,27 +75,27 @@
 
             <!-- Vehículos -->
             <a href="{% url 'vehiculo_list' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition {% if 'vehiculos' in request.path %}bg-indigo-50 text-indigo-600{% else %}text-slate-600 hover:bg-slate-50 hover:text-slate-900{% endif %}">
-                <i class="ph-bold ph-car text-lg"></i> Vehículos
+                <i class="fa-solid fa-car text-lg"></i> Vehículos
             </a>
 
             <!-- Clientes -->
             <a href="{% url 'cliente_list' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition {% if 'clientes' in request.path %}bg-indigo-50 text-indigo-600{% else %}text-slate-600 hover:bg-slate-50 hover:text-slate-900{% endif %}">
-                <i class="ph-bold ph-users text-lg"></i> Clientes
+                <i class="fa-solid fa-users text-lg"></i> Clientes
             </a>
 
             <!-- Empleados -->
             <a href="{% url 'empleado_list' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition {% if 'empleados' in request.path %}bg-indigo-50 text-indigo-600{% else %}text-slate-600 hover:bg-slate-50 hover:text-slate-900{% endif %}">
-                <i class="ph-bold ph-identification-card text-lg"></i> Empleados
+                <i class="fa-solid fa-id-card text-lg"></i> Empleados
             </a>
 
             <!-- Inspección -->
             <a href="{% url 'inspeccion_list' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition {% if request.resolver_match.url_name == 'inspeccion_list' %}bg-indigo-50 text-indigo-600{% else %}text-slate-600 hover:bg-slate-50 hover:text-slate-900{% endif %}">
-                <i class="ph-bold ph-shield-check text-lg"></i> Inspección
+                <i class="fa-solid fa-shield text-lg"></i> Inspección
             </a>
 
             <!-- Rentas -->
             <a href="{% url 'renta_list' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition {% if request.resolver_match.url_name == 'renta_list' %}bg-indigo-50 text-indigo-600{% else %}text-slate-600 hover:bg-slate-50 hover:text-slate-900{% endif %}">
-                <i class="ph-bold ph-handshake text-lg"></i> Rentas
+                <i class="fa-solid fa-handshake text-lg"></i> Rentas
             </a>
 
             <div class="pt-4 pb-2">
@@ -104,12 +104,12 @@
 
             <!-- Consulta de Rentas -->
             <a href="{% url 'consulta_rentas' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition {% if 'consultas' in request.path %}bg-indigo-50 text-indigo-600{% else %}text-slate-600 hover:bg-slate-50 hover:text-slate-900{% endif %}">
-                <i class="ph-bold ph-magnifying-glass text-lg"></i> Consulta de Rentas
+                <i class="fa-solid fa-magnifying-glass text-lg"></i> Consulta de Rentas
             </a>
 
             <!-- Reporte de Rentas -->
             <a href="{% url 'reporte_rentas' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition {% if 'reportes' in request.path %}bg-indigo-50 text-indigo-600{% else %}text-slate-600 hover:bg-slate-50 hover:text-slate-900{% endif %}">
-                <i class="ph-bold ph-chart-line-up text-lg"></i> Reporte de Rentas
+                <i class="fa-solid fa-chart-line text-lg"></i> Reporte de Rentas
             </a>
         </nav>
     </aside>
@@ -121,7 +121,7 @@
             <!-- Left Header -->
             <div class="flex items-center gap-3">
                 <button onclick="toggleSidebar()" class="md:hidden p-2 text-slate-600 hover:bg-slate-100 rounded-lg focus:outline-none">
-                    <i class="ph-bold ph-list text-xl"></i>
+                    <i class="fa-solid fa-bars text-xl"></i>
                 </button>
                 <h1 class="text-base font-bold text-slate-800">
                     {% block title %}Sistema RentCar{% endblock %}
@@ -135,7 +135,7 @@
                 <form action="{% url 'logout' %}" method="post" class="inline" id="logout-form">
                     {% csrf_token %}
                     <button type="button" onclick="showLogoutModal()" class="flex items-center gap-1.5 bg-red-50 hover:bg-red-100 text-red-600 px-3 py-2 rounded-xl text-xs font-semibold transition border border-red-100">
-                        <i class="ph-bold ph-sign-out text-sm"></i> Cerrar Sesión
+                        <i class="fa-solid fa-right-from-bracket text-sm"></i> Cerrar Sesión
                     </button>
                 </form>
                 {% endif %}
@@ -150,7 +150,7 @@
             <div class="mb-6 space-y-3">
                 {% for message in messages %}
                 <div class="p-4 rounded-xl flex items-center gap-3 {% if message.tags == 'error' %}bg-red-50 border border-red-200 text-red-700{% else %}bg-indigo-50 border border-indigo-200 text-indigo-700{% endif %}">
-                    <i class="ph-bold {% if message.tags == 'error' %}ph-warning-octagon{% else %}ph-check-circle{% endif %} text-xl"></i>
+                    <i class="{% if message.tags == 'error' %}fa-solid fa-circle-exclamation{% else %}fa-solid fa-circle-check{% endif %} text-xl"></i>
                     <span class="text-sm font-semibold">{{ message }}</span>
                 </div>
                 {% endfor %}
@@ -171,7 +171,7 @@
         <div class="bg-white rounded-2xl shadow-xl w-full max-w-sm overflow-hidden transform scale-95 transition-transform duration-300" id="logout-modal-content">
             <div class="p-6 text-center">
                 <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <i class="ph-bold ph-sign-out text-3xl text-red-600"></i>
+                    <i class="fa-solid fa-right-from-bracket text-3xl text-red-600"></i>
                 </div>
                 <h3 class="text-xl font-bold text-slate-800 mb-2">¿Cerrar Sesión?</h3>
                 <p class="text-slate-500 text-sm mb-6">Estás a punto de salir del sistema. Tendrás que volver a ingresar tus credenciales para acceder.</p>

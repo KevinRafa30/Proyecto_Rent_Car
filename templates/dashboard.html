@@ -10,7 +10,7 @@
             <h3 class="text-3xl font-black text-slate-800 mt-1">{{ total_vehiculos }}</h3>
         </div>
         <div class="p-4 bg-blue-50 text-blue-600 rounded-xl border border-blue-100">
-            <i class="ph-bold ph-car text-2xl"></i>
+            <i class="fa-solid fa-car text-2xl"></i>
         </div>
     </div>
 
@@ -21,7 +21,7 @@
             <h3 class="text-3xl font-black text-indigo-600 mt-1">{{ vehiculos_disponibles }}</h3>
         </div>
         <div class="p-4 bg-indigo-50 text-indigo-600 rounded-xl border border-indigo-100">
-            <i class="ph-bold ph-sparkle text-2xl"></i>
+            <i class="fa-solid fa-star text-2xl"></i>
         </div>
     </div>
 
@@ -32,7 +32,7 @@
             <h3 class="text-3xl font-black text-teal-600 mt-1">{{ rentas_activas }}</h3>
         </div>
         <div class="p-4 bg-teal-50 text-teal-600 rounded-xl border border-teal-100">
-            <i class="ph-bold ph-key text-2xl"></i>
+            <i class="fa-solid fa-key text-2xl"></i>
         </div>
     </div>
 
@@ -43,7 +43,7 @@
             <h3 class="text-3xl font-black text-indigo-600 mt-1">{{ total_clientes }}</h3>
         </div>
         <div class="p-4 bg-indigo-50 text-indigo-600 rounded-xl border border-indigo-100">
-            <i class="ph-bold ph-users-three text-2xl"></i>
+            <i class="fa-solid fa-users text-2xl"></i>
         </div>
     </div>
 
@@ -55,7 +55,7 @@
     <!-- Alertas: Devoluciones para Hoy -->
     <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
         <div class="flex items-center gap-2 mb-4">
-            <i class="ph-bold ph-bell-ringing text-amber-500 text-xl animate-pulse"></i>
+            <i class="fa-solid fa-bell text-amber-500 text-xl animate-pulse"></i>
             <h3 class="text-base font-bold text-slate-800">Devoluciones Programadas para Hoy</h3>
         </div>
         
@@ -70,7 +70,7 @@
                 <form action="{% url 'procesar_devolucion' r.id %}" method="post">
                     {% csrf_token %}
                     <button type="submit" class="bg-indigo-650 hover:bg-indigo-700 text-white text-xs font-bold px-3 py-2 rounded-lg transition flex items-center gap-1 shadow-sm shadow-indigo-500/20">
-                        <i class="ph-bold ph-check"></i> Recibir
+                        <i class="fa-solid fa-check"></i> Recibir
                     </button>
                 </form>
             </div>
@@ -89,7 +89,7 @@
 <div class="bg-white border border-slate-200 rounded-2xl p-6 mb-8 shadow-sm">
     <div class="flex items-center justify-between mb-6">
         <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
-            <i class="ph-bold ph-pulse text-indigo-500"></i> Monitoreo de Flota
+            <i class="fa-solid fa-heart-pulse text-indigo-500"></i> Monitoreo de Flota
         </h3>
         <div class="flex gap-2">
             <span class="text-xs bg-indigo-50 text-indigo-600 border border-indigo-100 px-2.5 py-1 rounded-full font-semibold">Disponible</span>
