@@ -52,14 +52,14 @@
             </div>
             <div>
                 <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Fecha Inicio Renta</label>
-                {{ form.fecha_renta }}
+                <input type="date" name="fecha_renta" id="id_fecha_renta" class="w-full bg-slate-50 text-slate-800 rounded-xl border border-slate-200 p-2.5 focus:ring-2 focus:ring-indigo-500 outline-none transition" required>
             </div>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div>
                 <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Fecha Devolución</label>
-                {{ form.fecha_devolucion }}
+                <input type="date" name="fecha_devolucion" id="id_fecha_devolucion" class="w-full bg-slate-50 text-slate-800 rounded-xl border border-slate-200 p-2.5 focus:ring-2 focus:ring-indigo-500 outline-none transition" required>
             </div>
             <div class="bg-slate-50 p-4 rounded-xl flex flex-col justify-center border border-slate-200">
                 <span class="text-xs text-slate-500 uppercase tracking-wider font-semibold">Costo Total de Renta</span>
@@ -101,6 +101,28 @@
     const totalDisplay = document.getElementById('total_calculado');
     const warningDiv = document.getElementById('credit_warning');
     const submitBtn = document.getElementById('submit_btn');
+
+    const fechaRentaInput = document.getElementById('id_fecha_renta');
+    const fechaDevolucionInput = document.getElementById('id_fecha_devolucion');
+
+    // Restricciones de Fechas Seguras
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const dd = String(today.getDate()).padStart(2, '0');
+    const localDateStr = `${yyyy}-${mm}-${dd}`;
+    
+    if (fechaRentaInput && fechaDevolucionInput) {
+        fechaRentaInput.min = localDateStr;
+        fechaDevolucionInput.min = localDateStr;
+
+        fechaRentaInput.addEventListener('change', function() {
+            fechaDevolucionInput.min = this.value;
+            if(fechaDevolucionInput.value && fechaDevolucionInput.value < this.value) {
+                fechaDevolucionInput.value = '';
+            }
+        });
+    }
 
     // Auto-completar precio por día al seleccionar el vehículo
     vehiculoSelect.addEventListener('change', function() {

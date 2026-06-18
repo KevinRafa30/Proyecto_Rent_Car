@@ -172,6 +172,11 @@ class RentaDevolucion(models.Model):
     estado = models.CharField(max_length=15, choices=EstadoTransaccion.choices, default=EstadoTransaccion.ACTIVO)
 
     def clean(self):
+        # 0. Validar que la fecha de renta no sea pasada al crear una renta
+        if not self.pk and self.fecha_renta:
+            if self.fecha_renta < timezone.localdate():
+                raise ValidationError(_("No puedes registrar una renta en una fecha pasada."))
+
         # 1. Validar que el vehículo esté disponible para renta si es un registro nuevo
         if not self.pk and self.vehiculo.estado != Vehiculo.EstadoVehiculo.DISPONIBLE:
             raise ValidationError(_("El vehículo seleccionado no se encuentra disponible para renta en este momento."))
