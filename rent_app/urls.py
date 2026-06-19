@@ -59,7 +59,7 @@ urlpatterns = [
     path('vehiculos/editar/<int:pk>/', views.edit_vehiculo, name='vehiculo_edit'),
     path('vehiculos/eliminar/<int:pk>/', views.delete_vehiculo, name='vehiculo_delete'),
 
-    # Consultas y Reportes
+    # Rutas de consultas y generación de reportes
     path('consultas/', views.consulta_rentas, name='consulta_rentas'),
     path('reportes/', views.reporte_rentas, name='reporte_rentas'),
 ]

@@ -8,25 +8,25 @@ from decimal import Decimal
 from .models import Vehiculo, Cliente, Empleado, RentaDevolucion, Inspeccion, TipoVehiculo, Marca, Modelo, TipoCombustible
 from .forms import RentaForm, InspeccionForm, TipoVehiculoForm, MarcaForm, ModeloForm, TipoCombustibleForm, ClienteForm, EmpleadoForm, VehiculoForm
 
-# Dashboard Principal Dinámico (Kpis, Alertas, Logs transaccionales)
+# Vista principal que consolida métricas, alertas y transacciones recientes
 @login_required
 def dashboard(request):
-    # KPIs Clave
+    # Obtención de indicadores clave de rendimiento
     total_vehiculos = Vehiculo.objects.count()
     vehiculos_disponibles = Vehiculo.objects.filter(estado=Vehiculo.EstadoVehiculo.DISPONIBLE).count()
     rentas_activas = RentaDevolucion.objects.filter(estado=RentaDevolucion.EstadoTransaccion.ACTIVO).count()
     total_clientes = Cliente.objects.count()
 
-    # Alertas Dinámicas del Negocio (Requerimiento de UX Proactiva)
+    # Recopilación de alertas operativas del sistema
     hoy = timezone.now().date()
     rentas_hoy = RentaDevolucion.objects.filter(estado=RentaDevolucion.EstadoTransaccion.ACTIVO, fecha_devolucion=hoy)
     
-    # Alertas de Clientes cerca de superar el Límite de Crédito
+    # Evaluación de clientes con proximidad a su límite de crédito
     clientes_en_riesgo = []
     rentas_vigentes = RentaDevolucion.objects.filter(estado=RentaDevolucion.EstadoTransaccion.ACTIVO)
     for renta in rentas_vigentes:
         costo_renta = renta.monto_x_dia * renta.cantidad_dias
-        # Alerta si la renta actual consume el 85% o más del límite del cliente
+        # Identifica registros cuyo consumo relativo supera el umbral del 85%
         if costo_renta >= (renta.cliente.limite_credito * Decimal('0.85')):
             clientes_en_riesgo.append({
                 'cliente': renta.cliente,
@@ -36,8 +36,8 @@ def dashboard(request):
                 'renta_id': renta.id
             })
 
-    # Listas de datos para visualización
-    # Vehículos rentados para el monitoreo
+    # Preparación de estructuras de datos para renderizado
+    # Selección de vehículos con transacciones activas para el panel de control
     rentas_activas_qs = RentaDevolucion.objects.filter(estado=RentaDevolucion.EstadoTransaccion.ACTIVO)
     vehiculos_rentados_ids = rentas_activas_qs.values_list('vehiculo_id', flat=True)
 
@@ -61,7 +61,7 @@ def dashboard(request):
     }
     return render(request, 'dashboard.html', context)
 
-# Crear Renta
+# Controlador para la creación de registros de renta
 @login_required
 def registrar_renta(request):
     if request.method == 'POST':
@@ -78,7 +78,7 @@ def registrar_renta(request):
     else:
         form = RentaForm()
     
-    # Datos de apoyo para el Javascript dinámico de validación en la UI
+    # Genera estructuras de datos requeridas por la capa de presentación
     clientes_data = Cliente.objects.filter(estado='Activo')
     vehiculos_data = Vehiculo.objects.filter(estado=Vehiculo.EstadoVehiculo.DISPONIBLE)
 

@@ -1,7 +1,7 @@
 from django import forms
 from .models import RentaDevolucion, Inspeccion, Vehiculo, Cliente, Empleado, TipoVehiculo, Marca, Modelo, TipoCombustible
 
-# Formulario de Renta con Estilos Premium de Tailwind
+# Definición del formulario de renta
 class RentaForm(forms.ModelForm):
     class Meta:
         model = RentaDevolucion
@@ -14,11 +14,11 @@ class RentaForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # Solo mostrar vehículos disponibles si estamos creando una renta nueva
+        # Restringe las opciones a vehículos disponibles durante operaciones de inserción
         if not self.instance.pk:
             self.fields['vehiculo'].queryset = Vehiculo.objects.filter(estado=Vehiculo.EstadoVehiculo.DISPONIBLE)
         
-        # Estilizar campos con clases Tailwind globales (modo claro)
+        # Asignación de clases de diseño a los widgets del formulario
         tailwind_classes = "w-full bg-slate-50 text-slate-800 rounded-xl border border-slate-200 p-2.5 focus:ring-2 focus:ring-indigo-500 focus:outline-none transition"
         for field_name, field in self.fields.items():
             field.widget.attrs['class'] = tailwind_classes
@@ -99,7 +99,7 @@ class ClienteForm(forms.ModelForm):
 
     def clean_cedula_rnc(self):
         cedula_rnc = self.cleaned_data.get('cedula_rnc')
-        # Limpiar posibles espacios
+        # Sanea la cadena eliminando espacios en blanco perimetrales
         if cedula_rnc:
             cedula_rnc = cedula_rnc.strip()
         if not cedula_rnc.isdigit():

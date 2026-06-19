@@ -9,7 +9,7 @@ def validar_cedula_rnc(valor):
         raise ValidationError(_("La cédula o RNC debe contener solo números."))
     
     if len(valor) == 11:
-        # Validar Cédula
+        # Valida el formato numérico y la longitud de la cédula
         suma = 0
         multiplicadores = [1, 2, 1, 2, 1, 2, 1, 2, 1, 2]
         for i in range(10):
@@ -22,7 +22,7 @@ def validar_cedula_rnc(valor):
             raise ValidationError(_("La cédula ingresada no es válida."))
             
     elif len(valor) == 9:
-        # Validar RNC
+        # Valida el formato numérico y la longitud del RNC
         pesos = [7, 9, 8, 6, 5, 4, 3, 2]
         suma = sum(int(valor[i]) * pesos[i] for i in range(8))
         resto = suma % 11
@@ -154,7 +154,7 @@ class Inspeccion(models.Model):
     def __str__(self):
         return f"Inspección {self.id} - Vehículo: {self.vehiculo.descripcion}"
 
-# 9. Renta y Devolución (Reglas de Negocio Robustas)
+# 9. Entidad de Renta y Devolución
 class RentaDevolucion(models.Model):
     class EstadoTransaccion(models.TextChoices):
         ACTIVO = 'Activo', _('Activo / Rentado')
@@ -172,20 +172,20 @@ class RentaDevolucion(models.Model):
     estado = models.CharField(max_length=15, choices=EstadoTransaccion.choices, default=EstadoTransaccion.ACTIVO)
 
     def clean(self):
-        # 0. Validar que la fecha de renta no sea pasada al crear una renta
+        # Evita el registro de fechas anteriores a la actual durante la creación
         if not self.pk and self.fecha_renta:
             if self.fecha_renta < timezone.localdate():
                 raise ValidationError(_("No puedes registrar una renta en una fecha pasada."))
 
-        # 1. Validar que el vehículo esté disponible para renta si es un registro nuevo
+        # Verifica la disponibilidad del vehículo en transacciones nuevas
         if not self.pk and self.vehiculo.estado != Vehiculo.EstadoVehiculo.DISPONIBLE:
             raise ValidationError(_("El vehículo seleccionado no se encuentra disponible para renta en este momento."))
 
-        # 2. Validar que la fecha de devolución sea posterior o igual a la de renta
+        # Garantiza la coherencia cronológica de las fechas de la transacción
         if self.fecha_devolucion and self.fecha_renta and self.fecha_devolucion < self.fecha_renta:
             raise ValidationError(_("La fecha de devolución no puede ser anterior a la fecha de inicio de la renta."))
 
-        # 3. Validar el Límite de Crédito del cliente en tiempo real
+        # Verifica la disponibilidad de crédito frente al costo estimado
         costo_total = self.monto_x_dia * self.cantidad_dias
         if costo_total > self.cliente.limite_credito:
             raise ValidationError(_(
@@ -196,16 +196,16 @@ class RentaDevolucion(models.Model):
     def save(self, *args, **kwargs):
         self.clean()
         
-        # Calcular Comisión sobre el Monto Total al momento de creación
+        # Calcula la comisión asignada al empleado basada en el monto total
         monto_total = self.monto_x_dia * self.cantidad_dias
         porcentaje = self.empleado.porc_comision / 100
         self.comision_calculada = monto_total * porcentaje
 
-        # Cambiar estado del vehículo de forma automática
-        if not self.pk: # Creación
+        # Actualiza el estado del vehículo en función del evento de la transacción
+        if not self.pk: # Evento de creación
             self.vehiculo.estado = Vehiculo.EstadoVehiculo.RENTADO
             self.vehiculo.save()
-        elif self.estado == self.EstadoTransaccion.DEVUELTO: # Devolución exitosa
+        elif self.estado == self.EstadoTransaccion.DEVUELTO: # Evento de devolución
             self.vehiculo.estado = Vehiculo.EstadoVehiculo.DISPONIBLE
             self.vehiculo.save()
 
