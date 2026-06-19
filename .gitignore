@@ -17,3 +17,14 @@ ENV/
 .vscode/
 .idea/
 .DS_Store
+
+# Logs
+*.log
+
+# Static and Media
+media/
+staticfiles/
+
+# Database temporary files
+*.sqlite3-journal
+*.sqlite3-wal
