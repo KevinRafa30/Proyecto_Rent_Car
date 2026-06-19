@@ -82,7 +82,7 @@ def registrar_renta(request):
     clientes_data = Cliente.objects.filter(estado='Activo')
     vehiculos_data = Vehiculo.objects.filter(estado=Vehiculo.EstadoVehiculo.DISPONIBLE)
 
-    return render(request, 'rent_form.html', {
+    return render(request, 'rentas/rent_form.html', {
         'form': form,
         'clientes_data': clientes_data,
         'vehiculos_data': vehiculos_data,
@@ -113,7 +113,7 @@ def edit_renta(request, pk):
     if obj.vehiculo not in vehiculos_data:
         vehiculos_data = vehiculos_data | Vehiculo.objects.filter(pk=obj.vehiculo.pk)
 
-    return render(request, 'rent_form.html', {
+    return render(request, 'rentas/rent_form.html', {
         'form': form, 
         'title': _("Editar Renta"),
         'clientes_data': clientes_data,
@@ -145,7 +145,7 @@ def procesar_devolucion(request, renta_id):
         renta.save()
         messages.success(request, _("Vehículo devuelto con éxito. Flota actualizada."))
         return redirect('inspeccion_list')
-    return render(request, 'devolucion_confirm.html', {'renta': renta})
+    return render(request, 'rentas/devolucion_confirm.html', {'renta': renta})
 
 # Registrar Inspección Física Técnica
 @login_required
@@ -158,7 +158,7 @@ def registrar_inspeccion(request):
             return redirect('inspeccion_list')
     else:
         form = InspeccionForm()
-    return render(request, 'inspection_form.html', {'form': form, 'title': _("Inspección Física de Vehículo")})
+    return render(request, 'inspecciones/inspection_form.html', {'form': form, 'title': _("Inspección Física de Vehículo")})
 
 @login_required
 def inspeccion_list(request):
@@ -176,7 +176,7 @@ def edit_inspeccion(request, pk):
             return redirect('inspeccion_list')
     else:
         form = InspeccionForm(instance=obj)
-    return render(request, 'inspection_form.html', {'form': form, 'title': _("Editar Inspección")})
+    return render(request, 'inspecciones/inspection_form.html', {'form': form, 'title': _("Editar Inspección")})
 
 @login_required
 def delete_inspeccion(request, pk):
@@ -562,7 +562,7 @@ def consulta_rentas(request):
         'selected_fecha_inicio': fecha_inicio,
         'selected_fecha_fin': fecha_fin,
     }
-    return render(request, 'consulta_rentas.html', context)
+    return render(request, 'rentas/consulta_rentas.html', context)
 
 
 # Reporte de Rentas para Exportación
@@ -599,4 +599,4 @@ def reporte_rentas(request):
         'selected_fecha_fin': fecha_fin,
         'selected_tipo_vehiculo': int(tipo_vehiculo_id) if tipo_vehiculo_id else None,
     }
-    return render(request, 'reporte_rentas.html', context)
+    return render(request, 'rentas/reporte_rentas.html', context)
